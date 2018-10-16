@@ -1,6 +1,7 @@
 package com.josh;
 
 import com.josh.pieces.*;
+import com.josh.util.BoardPosition;
 import com.josh.util.Color;
 import org.apache.commons.lang3.StringUtils;
 
@@ -67,7 +68,7 @@ public class Game {
             //find king, then force generate
             moves.addAll(forceGenerateKingMove(false));
         System.out.println("Potential Moves: " + moves.toString());
-        System.out.println("Making move: " + moves.get(0));
+        System.out.println("Making move: " + moves.get(0)  +"\t" +BoardPosition.generateOpponentEquivalemtMove(moves.get(0)));
         board.move(moves.get(0).toCharArray());
     }
 

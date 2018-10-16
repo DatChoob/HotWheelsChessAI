@@ -1,6 +1,9 @@
 package com.josh.util;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum BoardPosition {
     A1,
@@ -67,209 +70,432 @@ public enum BoardPosition {
     G8;
 
     public static BoardPosition getBoardPosition1Index(int row, int column) {
-        BoardPosition ret =  A1;
-        switch(column){
+        BoardPosition ret = A1;
+        switch (column) {
             case 1:
                 //A
-                switch(row){
-                    case 1: ret = A1; break;
-                    case 2: ret = A2; break;
-                    case 3: ret = A3; break;
-                    case 4: ret = A4; break;
-                    case 5: ret = A5; break;
-                    case 6: ret = A6; break;
-                    case 7: ret = A7; break;
-                    case 8: ret = A8; break;
+                switch (row) {
+                    case 1:
+                        ret = A1;
+                        break;
+                    case 2:
+                        ret = A2;
+                        break;
+                    case 3:
+                        ret = A3;
+                        break;
+                    case 4:
+                        ret = A4;
+                        break;
+                    case 5:
+                        ret = A5;
+                        break;
+                    case 6:
+                        ret = A6;
+                        break;
+                    case 7:
+                        ret = A7;
+                        break;
+                    case 8:
+                        ret = A8;
+                        break;
 
                 }
                 break;
             case 2:
                 //B
-                switch(row){
-                    case 1: ret = B1; break;
-                    case 2: ret = B2; break;
-                    case 3: ret = B3; break;
-                    case 4: ret = B4; break;
-                    case 5: ret = B5; break;
-                    case 6: ret = B6; break;
-                    case 7: ret = B7; break;
-                    case 8: ret = B8; break;
+                switch (row) {
+                    case 1:
+                        ret = B1;
+                        break;
+                    case 2:
+                        ret = B2;
+                        break;
+                    case 3:
+                        ret = B3;
+                        break;
+                    case 4:
+                        ret = B4;
+                        break;
+                    case 5:
+                        ret = B5;
+                        break;
+                    case 6:
+                        ret = B6;
+                        break;
+                    case 7:
+                        ret = B7;
+                        break;
+                    case 8:
+                        ret = B8;
+                        break;
                 }
                 break;
             case 3:
                 //C
-                switch(row){
-                    case 1: ret = C1; break;
-                    case 2: ret = C2; break;
-                    case 3: ret = C3; break;
-                    case 4: ret = C4; break;
-                    case 5: ret = C5; break;
-                    case 6: ret = C6; break;
-                    case 7: ret = C7; break;
-                    case 8: ret = C8; break;
+                switch (row) {
+                    case 1:
+                        ret = C1;
+                        break;
+                    case 2:
+                        ret = C2;
+                        break;
+                    case 3:
+                        ret = C3;
+                        break;
+                    case 4:
+                        ret = C4;
+                        break;
+                    case 5:
+                        ret = C5;
+                        break;
+                    case 6:
+                        ret = C6;
+                        break;
+                    case 7:
+                        ret = C7;
+                        break;
+                    case 8:
+                        ret = C8;
+                        break;
                 }
                 break;
             case 4:
                 //D
-                switch(row){
-                    case 1: ret = D1; break;
-                    case 2: ret = D2; break;
-                    case 3: ret = D3; break;
-                    case 4: ret = D4; break;
-                    case 5: ret = D5; break;
-                    case 6: ret = D6; break;
-                    case 7: ret = D7; break;
-                    case 8: ret = D8; break;
+                switch (row) {
+                    case 1:
+                        ret = D1;
+                        break;
+                    case 2:
+                        ret = D2;
+                        break;
+                    case 3:
+                        ret = D3;
+                        break;
+                    case 4:
+                        ret = D4;
+                        break;
+                    case 5:
+                        ret = D5;
+                        break;
+                    case 6:
+                        ret = D6;
+                        break;
+                    case 7:
+                        ret = D7;
+                        break;
+                    case 8:
+                        ret = D8;
+                        break;
                 }
                 break;
             case 5:
                 //E
-                switch(row){
-                    case 1: ret = E1; break;
-                    case 2: ret = E2; break;
-                    case 3: ret = E3; break;
-                    case 4: ret = E4; break;
-                    case 5: ret = E5; break;
-                    case 6: ret = E6; break;
-                    case 7: ret = E7; break;
-                    case 8: ret = E8; break;
+                switch (row) {
+                    case 1:
+                        ret = E1;
+                        break;
+                    case 2:
+                        ret = E2;
+                        break;
+                    case 3:
+                        ret = E3;
+                        break;
+                    case 4:
+                        ret = E4;
+                        break;
+                    case 5:
+                        ret = E5;
+                        break;
+                    case 6:
+                        ret = E6;
+                        break;
+                    case 7:
+                        ret = E7;
+                        break;
+                    case 8:
+                        ret = E8;
+                        break;
                 }
                 break;
             case 6:
                 //F
-                switch(row){
-                    case 1: ret = F1; break;
-                    case 2: ret = F2; break;
-                    case 3: ret = F3; break;
-                    case 4: ret = F4; break;
-                    case 5: ret = F5; break;
-                    case 6: ret = F6; break;
-                    case 7: ret = F7; break;
-                    case 8: ret = F8; break;
+                switch (row) {
+                    case 1:
+                        ret = F1;
+                        break;
+                    case 2:
+                        ret = F2;
+                        break;
+                    case 3:
+                        ret = F3;
+                        break;
+                    case 4:
+                        ret = F4;
+                        break;
+                    case 5:
+                        ret = F5;
+                        break;
+                    case 6:
+                        ret = F6;
+                        break;
+                    case 7:
+                        ret = F7;
+                        break;
+                    case 8:
+                        ret = F8;
+                        break;
                 }
                 break;
             case 7:
                 //G
-                switch(row){
-                    case 1: ret = G1; break;
-                    case 2: ret = G2; break;
-                    case 3: ret = G3; break;
-                    case 4: ret = G4; break;
-                    case 5: ret = G5; break;
-                    case 6: ret = G6; break;
-                    case 7: ret = G7; break;
-                    case 8: ret = G8; break;
+                switch (row) {
+                    case 1:
+                        ret = G1;
+                        break;
+                    case 2:
+                        ret = G2;
+                        break;
+                    case 3:
+                        ret = G3;
+                        break;
+                    case 4:
+                        ret = G4;
+                        break;
+                    case 5:
+                        ret = G5;
+                        break;
+                    case 6:
+                        ret = G6;
+                        break;
+                    case 7:
+                        ret = G7;
+                        break;
+                    case 8:
+                        ret = G8;
+                        break;
                 }
                 break;
             default:
-                ret= A1;
+                ret = A1;
         }
         return ret;
     }
 
 
-
     public static BoardPosition getBoardPositionZeroIndex(int row, int column) {
-        BoardPosition ret =  A1;
-        switch(column){
+        BoardPosition ret = A1;
+        switch (column) {
             case 0:
                 //A
-                switch(row){
-                    case 0: ret = A1; break;
-                    case 1: ret = A2; break;
-                    case 2: ret = A3; break;
-                    case 3: ret = A4; break;
-                    case 4: ret = A5; break;
-                    case 5: ret = A6; break;
-                    case 6: ret = A7; break;
-                    case 7: ret = A8; break;
+                switch (row) {
+                    case 0:
+                        ret = A1;
+                        break;
+                    case 1:
+                        ret = A2;
+                        break;
+                    case 2:
+                        ret = A3;
+                        break;
+                    case 3:
+                        ret = A4;
+                        break;
+                    case 4:
+                        ret = A5;
+                        break;
+                    case 5:
+                        ret = A6;
+                        break;
+                    case 6:
+                        ret = A7;
+                        break;
+                    case 7:
+                        ret = A8;
+                        break;
 
                 }
                 break;
             case 1:
                 //B
-                switch(row){
-                    case 0: ret = B1; break;
-                    case 1: ret = B2; break;
-                    case 2: ret = B3; break;
-                    case 3: ret = B4; break;
-                    case 4: ret = B5; break;
-                    case 5: ret = B6; break;
-                    case 6: ret = B7; break;
-                    case 7: ret = B8; break;
+                switch (row) {
+                    case 0:
+                        ret = B1;
+                        break;
+                    case 1:
+                        ret = B2;
+                        break;
+                    case 2:
+                        ret = B3;
+                        break;
+                    case 3:
+                        ret = B4;
+                        break;
+                    case 4:
+                        ret = B5;
+                        break;
+                    case 5:
+                        ret = B6;
+                        break;
+                    case 6:
+                        ret = B7;
+                        break;
+                    case 7:
+                        ret = B8;
+                        break;
                 }
                 break;
             case 2:
                 //C
-                switch(row){
-                    case 0: ret = C1; break;
-                    case 1: ret = C2; break;
-                    case 2: ret = C3; break;
-                    case 3: ret = C4; break;
-                    case 4: ret = C5; break;
-                    case 5: ret = C6; break;
-                    case 6: ret = C7; break;
-                    case 7: ret = C8; break;
+                switch (row) {
+                    case 0:
+                        ret = C1;
+                        break;
+                    case 1:
+                        ret = C2;
+                        break;
+                    case 2:
+                        ret = C3;
+                        break;
+                    case 3:
+                        ret = C4;
+                        break;
+                    case 4:
+                        ret = C5;
+                        break;
+                    case 5:
+                        ret = C6;
+                        break;
+                    case 6:
+                        ret = C7;
+                        break;
+                    case 7:
+                        ret = C8;
+                        break;
                 }
                 break;
             case 3:
                 //D
-                switch(row){
-                    case 0: ret = D1; break;
-                    case 1: ret = D2; break;
-                    case 2: ret = D3; break;
-                    case 3: ret = D4; break;
-                    case 4: ret = D5; break;
-                    case 5: ret = D6; break;
-                    case 6: ret = D7; break;
-                    case 7: ret = D8; break;
+                switch (row) {
+                    case 0:
+                        ret = D1;
+                        break;
+                    case 1:
+                        ret = D2;
+                        break;
+                    case 2:
+                        ret = D3;
+                        break;
+                    case 3:
+                        ret = D4;
+                        break;
+                    case 4:
+                        ret = D5;
+                        break;
+                    case 5:
+                        ret = D6;
+                        break;
+                    case 6:
+                        ret = D7;
+                        break;
+                    case 7:
+                        ret = D8;
+                        break;
                 }
                 break;
             case 4:
                 //E
-                switch(row){
-                    case 0: ret = E1; break;
-                    case 1: ret = E2; break;
-                    case 2: ret = E3; break;
-                    case 3: ret = E4; break;
-                    case 4: ret = E5; break;
-                    case 5: ret = E6; break;
-                    case 6: ret = E7; break;
-                    case 7: ret = E8; break;
+                switch (row) {
+                    case 0:
+                        ret = E1;
+                        break;
+                    case 1:
+                        ret = E2;
+                        break;
+                    case 2:
+                        ret = E3;
+                        break;
+                    case 3:
+                        ret = E4;
+                        break;
+                    case 4:
+                        ret = E5;
+                        break;
+                    case 5:
+                        ret = E6;
+                        break;
+                    case 6:
+                        ret = E7;
+                        break;
+                    case 7:
+                        ret = E8;
+                        break;
                 }
                 break;
             case 5:
                 //F
-                switch(row){
-                    case 0: ret = F1; break;
-                    case 1: ret = F2; break;
-                    case 2: ret = F3; break;
-                    case 3: ret = F4; break;
-                    case 4: ret = F5; break;
-                    case 5: ret = F6; break;
-                    case 6: ret = F7; break;
-                    case 7: ret = F8; break;
+                switch (row) {
+                    case 0:
+                        ret = F1;
+                        break;
+                    case 1:
+                        ret = F2;
+                        break;
+                    case 2:
+                        ret = F3;
+                        break;
+                    case 3:
+                        ret = F4;
+                        break;
+                    case 4:
+                        ret = F5;
+                        break;
+                    case 5:
+                        ret = F6;
+                        break;
+                    case 6:
+                        ret = F7;
+                        break;
+                    case 7:
+                        ret = F8;
+                        break;
                 }
                 break;
             case 6:
                 //G
-                switch(row){
-                    case 0: ret = G1; break;
-                    case 1: ret = G2; break;
-                    case 2: ret = G3; break;
-                    case 3: ret = G4; break;
-                    case 4: ret = G5; break;
-                    case 5: ret = G6; break;
-                    case 6: ret = G7; break;
-                    case 7: ret = G8; break;
+                switch (row) {
+                    case 0:
+                        ret = G1;
+                        break;
+                    case 1:
+                        ret = G2;
+                        break;
+                    case 2:
+                        ret = G3;
+                        break;
+                    case 3:
+                        ret = G4;
+                        break;
+                    case 4:
+                        ret = G5;
+                        break;
+                    case 5:
+                        ret = G6;
+                        break;
+                    case 6:
+                        ret = G7;
+                        break;
+                    case 7:
+                        ret = G8;
+                        break;
                 }
                 break;
             default:
-                ret= A1;
+                ret = A1;
         }
         return ret;
     }
-    
+
     public static int columnCharToIndex(char c) {
         switch (c) {
             case 'A':
@@ -292,18 +518,67 @@ public enum BoardPosition {
 
     }
 
-    public static String indexToColumnChar(int index){
-        switch(index){
-            case 1: return "A";
-            case 2: return "B";
-            case 3: return "C";
-            case 4: return "D";
-            case 5: return "E";
-            case 6: return "F";
-            case 7: return "G";
-            default: throw new InvalidParameterException("not a valid index");
+    public static String indexToColumnChar(int index) {
+        switch (index) {
+            case 1:
+                return "A";
+            case 2:
+                return "B";
+            case 3:
+                return "C";
+            case 4:
+                return "D";
+            case 5:
+                return "E";
+            case 6:
+                return "F";
+            case 7:
+                return "G";
+            default:
+                throw new InvalidParameterException("not a valid index");
         }
 
     }
 
+    public static String generateOpponentEquivalemtMove(String myMove) {
+        char[] moveComponents = myMove.toCharArray();
+        List<?> newVales =  Arrays.asList(moveComponents[0], switchMyRowToOpponentRowNotation(moveComponents[1]), moveComponents[2], switchMyRowToOpponentRowNotation((moveComponents[3])));
+        return newVales.stream().map(String::valueOf).collect(Collectors.joining());
+
+    }
+
+    public static char switchMyRowToOpponentRowNotation(char row) {
+        char ret = '1';
+        switch (row) {
+            case '1':
+                ret = '8';
+                break;
+            case '2':
+                ret = '7';
+                break;
+            case '3':
+                ret = '6';
+                break;
+            case '4':
+                ret = '5';
+                break;
+            case '5':
+                ret = '4';
+                break;
+            case '6':
+                ret = '3';
+                break;
+            case '7':
+                ret = '2';
+                break;
+            case '8':
+                ret = '1';
+                break;
+            default:
+                ret = 1;
+                break;
+
+        }
+        return ret;
+    }
 }
