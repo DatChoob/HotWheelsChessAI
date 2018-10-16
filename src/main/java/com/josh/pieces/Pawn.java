@@ -36,12 +36,12 @@ public class Pawn extends Piece {
             }
             //forward right
             if (columnIndex + 1 != board.getWidth())
-                if (isOpponentsPiece(board.board[rowIndex - 1][columnIndex + 1])) {
+                if (isOpponentsPiece(board.board[rowIndex - 1][columnIndex + 1]) && !(board.board[rowIndex - 1][columnIndex + 1] instanceof King)) {
                     moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 1)));
                 }
             //forward left
             if (columnIndex != 0)
-                if (isOpponentsPiece(board.board[rowIndex - 1][columnIndex - 1])) {
+                if (isOpponentsPiece(board.board[rowIndex - 1][columnIndex - 1]) && !(board.board[rowIndex - 1][columnIndex - 1] instanceof King)) {
                     moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 1)));
                 }
         }
@@ -55,12 +55,12 @@ public class Pawn extends Piece {
             }
             //forward right
             if (columnIndex + 1 != board.getWidth())
-                if (isOpponentsPiece(board.board[rowIndex + 1][columnIndex + 1])) {
+                if (isOpponentsPiece(board.board[rowIndex + 1][columnIndex + 1]) && !(board.board[rowIndex + 1][columnIndex + 1] instanceof King)) {
                     moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 1)));
                 }
             //forward left
             if (columnIndex != 0)
-                if (isOpponentsPiece(board.board[rowIndex + 1][columnIndex - 1])) {
+                if (isOpponentsPiece(board.board[rowIndex + 1][columnIndex - 1]) && !(board.board[rowIndex + 1][columnIndex - 1] instanceof King)) {
                     moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 1)));
                 }
         }

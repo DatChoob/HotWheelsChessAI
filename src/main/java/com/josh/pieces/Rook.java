@@ -51,7 +51,7 @@ public class Rook extends Piece {
         }
 
         //moving right
-        for (int i = columnIndex + 1; i < board.getHeight(); i++) {
+        for (int i = columnIndex + 1; i < board.getWidth(); i++) {
             if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
@@ -77,7 +77,7 @@ public class Rook extends Piece {
         }
 
         //moving right
-        for (int i = columnIndex + 1; i < board.getHeight(); i++) {
+        for (int i = columnIndex + 1; i < board.getWidth(); i++) {
             if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
@@ -102,6 +102,8 @@ public class Rook extends Piece {
             //if empty position, add
             moves.add(new Move(fromPosition,toPosition));
             willContinueLoop = true;
+        } else if (piece instanceof King) {
+            willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
             moves.add(new Move(fromPosition,toPosition));
 
@@ -120,6 +122,8 @@ public class Rook extends Piece {
         boolean willContinueLoop = false;
         if (piece == null) {
             //continue
+            willContinueLoop = true;
+        } else if (piece instanceof King) {
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
             moves.add(new Move(fromPosition,toPosition));

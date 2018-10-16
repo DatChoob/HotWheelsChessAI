@@ -80,9 +80,6 @@ public class Knight extends Piece {
         }
 
 
-
-
-
     }
 
     private void generateMovesForUser(GameBoard board, int rowIndex, int columnIndex, List<Move> moves, BoardPosition currentPosition) {
@@ -129,17 +126,21 @@ public class Knight extends Piece {
     }
 
     private void addForwardMove(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
-
+        if (piece instanceof King)
+            return;
         if (piece == null || isOpponentsPiece(piece)) {
             //if empty or opponent position, add
-            moves.add(new Move(fromPosition,toPosition));
+            moves.add(new Move(fromPosition, toPosition));
         }
     }
 
     private void addBackwardMove(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
+        if (piece instanceof King) {
+            return;
+        }
         if (isOpponentsPiece(piece)) {
             //if opponent position, add
-            moves.add(new Move(fromPosition,toPosition));
+            moves.add(new Move(fromPosition, toPosition));
         }
     }
 
