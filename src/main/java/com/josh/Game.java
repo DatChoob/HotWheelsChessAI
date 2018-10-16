@@ -1,7 +1,6 @@
 package com.josh;
 
 import com.josh.pieces.*;
-import com.josh.util.BoardPosition;
 import com.josh.util.Color;
 import com.josh.util.Move;
 import org.apache.commons.lang3.StringUtils;
@@ -50,8 +49,6 @@ public class Game {
     }
 
     private boolean gameIsOver() {
-
-
         if (board.board[3][6] instanceof King && board.board[3][6].isUser()) {
             System.out.println("Human has won!");
             return true;
@@ -60,7 +57,6 @@ public class Game {
             System.out.println(Color.BLACK_BACKGROUND_BRIGHT + "Computer has won!");
             return true;
         }
-
         return false;
     }
 
@@ -82,7 +78,6 @@ public class Game {
             }
         }
         return new ArrayList<Move>();
-
     }
 
 
@@ -111,6 +106,7 @@ public class Game {
 
 
     public List<Move> generateMoves(boolean isHumanTurn, GameBoard board) {
+        long startTime = System.nanoTime();
         List<Move> moves = new ArrayList<>();
 
         for (int rowIndex = 1; rowIndex <= board.board.length; rowIndex++) {
@@ -120,8 +116,6 @@ public class Game {
                 if (piece == null) continue;
                 if (!isHumanTurn && !piece.isUser() || isHumanTurn && piece.isUser()) {
                     moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
-
-
 //                    Use commented out if you only want to generate moves for certain types of pieces
 //                    if (piece instanceof King) {
 //                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
@@ -134,8 +128,6 @@ public class Game {
 //                    } else if (piece instanceof Knight) {
 //                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
 //                    }
-
-
                 }
             }
         }
@@ -143,99 +135,79 @@ public class Game {
         if (moves.isEmpty())
             //find king, then force generate
             moves.addAll(forceGenerateKingMove(isHumanTurn));
+
+//        System.out.println("Generating moves took "+ (System.nanoTime()-startTime)/1000000.0 + "ms to generate " + moves.size() + "moves");
         return moves;
     }
 
 
     //        MiniMax(Board)
     public void minimax(GameBoard board) {
+        int alpha = -99999;
+        int beta = 99999;
         boolean isHumanTurn = false;
-//        best.mv = [not yet defined]
         Move bestMove = new Move();
-//        best.score = -9999
         bestMove.setScore(-9999);
-//        For each legal move m
         for (Move move : generateMoves(isHumanTurn, board)) {
             GameBoard clonesBoard = board.clone();
-
-            // make move m.mv on Board
             clonesBoard.move(move.toString().toCharArray());
-//            m.score = MIN
-            move.setScore(min(0, clonesBoard, !isHumanTurn));
-//            if (m.score > best.score) then best = m
+            move.setScore(min(0, clonesBoard, !isHumanTurn, alpha, beta));
             if (move.getScore() > bestMove.getScore()) bestMove = move;
-//            retract move m.mv on Board
-//            board.move(move.reverse().toString().toCharArray());
             //an attempt for forcing garbage collection to free up memory
             clonesBoard = null;
+
+            beta = Math.min(beta, bestMove.getScore());
+            if (beta <= alpha)
+                break;
         }
-//        Make move best.mv
-//        System.out.println("making move" + bestMove.toString());
+        System.out.println("Best Move Score: " + bestMove.getScore());
         board.move(bestMove.toString().toCharArray());
     }
 
-    private int min(int depth, GameBoard board, boolean isHumanTurn) {
+    private int min(int depth, GameBoard board, boolean isHumanTurn, int alpha, int beta) {
 
-//        MIN
-//        if (game over)return EVAL - ENDING
         if (gameIsOver()) return -9999;
-//else if (max depth)return EVAL
         else if (depth == MAX_DEPTH)
             return eval(board);
-//else
         else {
             Move bestMove = new Move();
-//        best.score = 9999
             bestMove.setScore(9999);
-//        for each human legal move m.mv
             for (Move move : generateMoves(isHumanTurn, board)) {
                 GameBoard clonesBoard = board.clone();
-//            make move m.mv on Board
                 clonesBoard.move(move.toString().toCharArray());
-//            m.score = MAX
-                move.setScore(max(depth + 1, clonesBoard, !isHumanTurn));
-//            if (m.score < best.score) then best = m
+                move.setScore(max(depth + 1, clonesBoard, !isHumanTurn, alpha, beta));
                 if (move.getScore() < bestMove.getScore()) bestMove = move;
-//            retract move m.mv on Board
-//                not needed since i'm cloning the board instead
-//                board.move(move.reverse().toString().toCharArray());
                 //an attempt for forcing garbage collection to free up memory
                 clonesBoard = null;
+
+                alpha = Math.max(alpha, bestMove.getScore());
+                if (beta <= alpha)
+                    break;
             }
-//        return best.score
             return bestMove.getScore();
         }
     }
 
-    private int max(int depth, GameBoard board, boolean isHumanTurn) {
+    private int max(int depth, GameBoard board, boolean isHumanTurn, int alpha, int beta) {
 
-//        MIN
-//        if (game over)return EVAL - ENDING
         if (gameIsOver()) return 9999;
-//else if (max depth)return EVAL
         else if (depth == MAX_DEPTH)
             return eval(board);
-//else
         else {
             Move bestMove = new Move();
-//        best.score = -9999
             bestMove.setScore(-9999);
-//        for each human legal move m.mv
             for (Move move : generateMoves(isHumanTurn, board)) {
                 GameBoard clonesBoard = board.clone();
-
-//            make move m.mv on Board
                 clonesBoard.move(move.toString().toCharArray());
-//            m.score = MIN
-                move.setScore(min(depth + 1, clonesBoard, !isHumanTurn));
-//            if (m.score > best.score) then best = m
+                move.setScore(min(depth + 1, clonesBoard, !isHumanTurn, alpha, beta));
                 if (move.getScore() > bestMove.getScore()) bestMove = move;
-//            retract move m.mv on Board
-//                board.move(move.reverse().toString().toCharArray());
-//an attempt for forcing garbage collection to free up memory
+                //an attempt for forcing garbage collection to free up memory
                 clonesBoard = null;
+
+                beta = Math.min(beta, bestMove.getScore());
+                if (beta <= alpha)
+                    break;
             }
-//        return best.score
             return bestMove.getScore();
         }
     }
@@ -246,13 +218,34 @@ public class Game {
             for (Piece piece : pieces) {
                 if (piece != null) {
                     if (piece.isUser()) {
-                        score--;
-                    } else score++;
+                        if (piece instanceof Rook)
+                            score -= 15;
+                        else if (piece instanceof Pawn)
+                            score -= 2;
+                        else if (piece instanceof Knight)
+                            score -= 8;
+                        else if (piece instanceof Bishop)
+                            score -= 10;
+                        else if (piece instanceof King)
+                            score -= King.getScoreBasedOnPosition(board);
+                    } else {
+                        if (piece instanceof Rook)
+                            score += 15;
+                        else if (piece instanceof Pawn)
+                            score += 2;
+                        else if (piece instanceof Knight)
+                            score += 8;
+                        else if (piece instanceof Bishop)
+                            score += 10;
+                        else if (piece instanceof King)
+                            score += King.getScoreBasedOnPosition(board);
+                    }
                 }
             }
         }
-        System.out.println("Eval " + score);
+//        System.out.println("Eval " + score);
         return score;
     }
+
 
 }
