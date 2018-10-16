@@ -90,7 +90,10 @@ public class Game {
         do {
             try {
                 System.out.println("Move a piece");
-                System.out.println("Potential Moves: " + generateMoves(true).toString());
+                List<String> moves=  generateMoves(true);
+                if(moves.isEmpty())
+                    moves.addAll(forceGenerateKingMove(true));
+                System.out.println("Potential Moves: " +moves.toString());
                 String input = scanner.nextLine();
                 if (StringUtils.isBlank(input)) continue;
                 if (!board.isValidMove(input.toCharArray())) continue;

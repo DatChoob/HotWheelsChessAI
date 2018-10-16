@@ -55,6 +55,7 @@ public class GameBoard {
 
     public void printBoard() {
         for (int i=board.length-1; i>=0; i--) {
+            System.out.print(i+"\t");
             for (Piece column : board[i]) {
                 if (column == null)
                     System.out.print("- ");
@@ -62,6 +63,9 @@ public class GameBoard {
             }
             System.out.println();
         }
+        System.out.println();
+
+        System.out.println("\tA B C D E F G");
     }
 
     public boolean isValidMove(char[] input) {
