@@ -27,7 +27,7 @@ public class Main {
         GameBoard board = new GameBoard();
 
 
-        Game controller=  new Game(board,playerStarts);
+        Game controller = new Game(board, playerStarts);
         controller.play();
 
     }

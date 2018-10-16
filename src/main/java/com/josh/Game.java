@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Game {
     GameBoard board;
-    boolean playerTurn;
+    private boolean playerTurn;
     private Scanner scanner = new Scanner(System.in);
 
 
@@ -63,15 +63,15 @@ public class Game {
     }
 
     private void moveComputer() {
-        long startTime =  System.nanoTime();
+        long startTime = System.nanoTime();
         List<Move> moves = generateMoves(false);
-        long finishTime =  System.nanoTime();
-        System.out.println("Time to generate AI moves(ms):  "+(finishTime-startTime)/1000000.0);
+        long finishTime = System.nanoTime();
+        System.out.println("Time to generate AI moves(ms):  " + (finishTime - startTime) / 1000000.0);
         if (moves.isEmpty())
             //find king, then force generate
             moves.addAll(forceGenerateKingMove(false));
         System.out.println("Potential Moves: " + moves.toString());
-        System.out.println("Making move: " + moves.get(0)  +"\t" +BoardPosition.generateOpponentEquivalentMove(moves.get(0).toString()));
+        System.out.println("Making move: " + moves.get(0) + "\t" + BoardPosition.generateOpponentEquivalentMove(moves.get(0).toString()));
         board.move(moves.get(0).toString().toCharArray());
     }
 
@@ -94,15 +94,18 @@ public class Game {
         do {
             try {
                 System.out.println("Move a piece");
-                List<Move> moves=  generateMoves(true);
-                if(moves.isEmpty())
+                List<Move> moves = generateMoves(true);
+                if (moves.isEmpty())
                     moves.addAll(forceGenerateKingMove(true));
-                System.out.println("Potential Moves: " +moves.toString());
+                System.out.println("Potential Moves: " + moves.toString());
                 String input = scanner.nextLine();
                 if (StringUtils.isBlank(input)) continue;
-                if (!board.isValidMove(input.toCharArray())) continue;
-                board.move(input.toCharArray());
+                if (!board.isValidMove(input.toUpperCase().toCharArray())) continue;
+                board.move(input.toUpperCase().toCharArray());
                 break;
+            } catch (NoSuchElementException nsee) {
+                //only thrown if we terminate program when it's expecting an input, ignore this
+                return;
             } catch (Exception e) {
                 System.err.println("Error reached move player method");
                 e.printStackTrace();
@@ -114,7 +117,7 @@ public class Game {
 
 
     public List<Move> generateMoves(boolean isHumanTurn) {
-        List<Move> moves = new ArrayList<Move>();
+        List<Move> moves = new ArrayList<>();
 
         for (int rowIndex = 1; rowIndex <= board.board.length; rowIndex++) {
             Piece[] rows = board.board[rowIndex - 1];
@@ -122,10 +125,10 @@ public class Game {
                 Piece piece = board.board[rowIndex - 1][columnIndex - 1];
                 if (piece == null) continue;
                 if (!isHumanTurn && !piece.isUser() || isHumanTurn && piece.isUser()) {
-                    //Use commented out if you only want to generate moves for certain types of pieces
                     moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
 
 
+//                    Use commented out if you only want to generate moves for certain types of pieces
 //                    if (piece instanceof King) {
 //                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
 //                    } else if (piece instanceof Pawn) {

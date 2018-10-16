@@ -54,7 +54,7 @@ public class Bishop extends Piece {
         }
 
         //backward left
-        backwardInc=1;
+        backwardInc = 1;
         while (rowIndex + backwardInc < board.getHeight() && columnIndex - backwardInc >= 0) {
             if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + backwardInc][columnIndex - backwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + backwardInc, columnIndex - backwardInc)))
                 break;
@@ -72,7 +72,7 @@ public class Bishop extends Piece {
         }
 
         //forward left
-        forwardInc=1;
+        forwardInc = 1;
         while (rowIndex + forwardInc < board.getHeight() && columnIndex - forwardInc >= 0) {
             if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + forwardInc][columnIndex - forwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + forwardInc, columnIndex - forwardInc)))
                 break;
@@ -110,10 +110,10 @@ public class Bishop extends Piece {
         boolean willContinueLoop = false;
         if (piece == null) {
             //if empty position, add
-            moves.add(new Move(fromPosition,toPosition));
+            moves.add(new Move(fromPosition, toPosition));
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
-            moves.add(new Move(fromPosition,toPosition));
+            moves.add(new Move(fromPosition, toPosition));
         }
         return willContinueLoop;
     }
@@ -131,7 +131,7 @@ public class Bishop extends Piece {
             //continue
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
-            moves.add(new Move(fromPosition,toPosition));
+            moves.add(new Move(fromPosition, toPosition));
         }
         return willContinueLoop;
     }
