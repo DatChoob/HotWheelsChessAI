@@ -126,6 +126,8 @@ public class Game {
                         moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
                     } else if (piece instanceof Rook) {
                         moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
+                    } else if (piece instanceof Knight) {
+                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
                     }
                 }
             }

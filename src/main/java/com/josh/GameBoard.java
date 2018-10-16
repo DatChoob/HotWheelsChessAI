@@ -2,8 +2,6 @@ package com.josh;
 
 import com.josh.pieces.*;
 
-import java.security.InvalidParameterException;
-
 import static com.josh.util.BoardPosition.columnCharToIndex;
 
 public class GameBoard {
@@ -34,6 +32,11 @@ public class GameBoard {
         board[2][4] = new Bishop(true);
         board[5][3] = new Bishop(false);
         board[5][4] = new Bishop(false);
+
+        board[3][0] = new Knight(true);
+        board[3][1] = new Knight(true);
+        board[4][0] = new Knight(false);
+        board[4][1] = new Knight(false);
 
 
         board[2][0] = new Rook(true);
@@ -132,13 +135,14 @@ public class GameBoard {
         return height;
     }
 
+
     // 8   C - - - - - - (COMPUTER)
-// 7   - P - - - - -
-// 6   R R P B B - -
-// 5   N N - P P P P
-// 4   n n - p p p p
-// 3   r r p b b - -
-// 2   - p - - - - -
-// 1   c - - - - - -  (HUMAN)
+    // 7   - P - - - - -
+    // 6   R R P B B - -
+    // 5   N N - P P P P
+    // 4   n n - p p p p
+    // 3   r r p b b - -
+    // 2   - p - - - - -
+    // 1   c - - - - - -  (HUMAN)
 
 }
