@@ -31,16 +31,17 @@ public class Pawn extends Piece {
     private void generateMovesForOpponent(GameBoard board, int rowIndex, int columnIndex, List<Move> moves, BoardPosition currentPosition) {
         if (rowIndex != board.getHeight()) {
             //moving forward
-            if (board.board[rowIndex - 1][columnIndex] == null) {
-                moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex)));
-            }
+            if (rowIndex - 1 >= 0)
+                if (board.board[rowIndex - 1][columnIndex] == null) {
+                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex)));
+                }
             //forward right
-            if (columnIndex + 1 != board.getWidth())
+            if (rowIndex - 1 >= 0 && columnIndex + 1 < board.getWidth())
                 if (isOpponentsPiece(board.board[rowIndex - 1][columnIndex + 1]) && !(board.board[rowIndex - 1][columnIndex + 1] instanceof King)) {
                     moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 1)));
                 }
             //forward left
-            if (columnIndex != 0)
+            if (rowIndex - 1 >= 0 && columnIndex - 1 >= 0)
                 if (isOpponentsPiece(board.board[rowIndex - 1][columnIndex - 1]) && !(board.board[rowIndex - 1][columnIndex - 1] instanceof King)) {
                     moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 1)));
                 }
@@ -50,16 +51,17 @@ public class Pawn extends Piece {
     private void generateMovesForUser(GameBoard board, int rowIndex, int columnIndex, List<Move> moves, BoardPosition currentPosition) {
         if (rowIndex != board.getHeight()) {
             //moving forward if empty space
-            if (board.board[rowIndex + 1][columnIndex] == null) {
-                moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex)));
-            }
+            if (rowIndex + 1 < board.getHeight())
+                if (board.board[rowIndex + 1][columnIndex] == null) {
+                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex)));
+                }
             //forward right
-            if (columnIndex + 1 != board.getWidth())
+            if (rowIndex + 1 < board.getHeight() && columnIndex + 1 < board.getWidth())
                 if (isOpponentsPiece(board.board[rowIndex + 1][columnIndex + 1]) && !(board.board[rowIndex + 1][columnIndex + 1] instanceof King)) {
                     moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 1)));
                 }
             //forward left
-            if (columnIndex != 0)
+            if (rowIndex + 1 < board.getHeight() && columnIndex - 1 >= 0)
                 if (isOpponentsPiece(board.board[rowIndex + 1][columnIndex - 1]) && !(board.board[rowIndex + 1][columnIndex - 1] instanceof King)) {
                     moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 1)));
                 }
