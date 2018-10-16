@@ -57,8 +57,8 @@ public class GameBoard {
     }
 
     public void printBoard() {
-        for (int i=board.length-1; i>=0; i--) {
-            System.out.print(i+"\t");
+        for (int i = board.length - 1; i >= 0; i--) {
+            System.out.print((i + 1) + "\t");
             for (Piece column : board[i]) {
                 if (column == null)
                     System.out.print("- ");

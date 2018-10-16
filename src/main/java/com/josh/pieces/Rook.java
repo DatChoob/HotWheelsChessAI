@@ -1,6 +1,8 @@
 package com.josh.pieces;
 
 import com.josh.GameBoard;
+import com.josh.util.BoardPosition;
+import com.josh.util.Move;
 
 import static com.josh.util.BoardPosition.getBoardPositionZeroIndex;
 
@@ -22,9 +24,9 @@ public class Rook extends Piece {
     }
 
 
-    public List<String> generateMoves(GameBoard board, int rowIndex, int columnIndex) {
-        List<String> moves = new ArrayList<String>();
-        String currentPosition = getBoardPositionZeroIndex(rowIndex, columnIndex).toString();
+    public List<Move> generateMoves(GameBoard board, int rowIndex, int columnIndex) {
+        List<Move> moves = new ArrayList<Move>();
+        BoardPosition currentPosition = getBoardPositionZeroIndex(rowIndex, columnIndex);
         if (isUser()) {
             generateMovesForUser(board, rowIndex, columnIndex, moves, currentPosition);
         }
@@ -34,55 +36,55 @@ public class Rook extends Piece {
         return moves;
     }
 
-    private void generateMovesForOpponent(GameBoard board, int rowIndex, int columnIndex, List<String> moves, String currentPosition) {
+    private void generateMovesForOpponent(GameBoard board, int rowIndex, int columnIndex, List<Move> moves, BoardPosition currentPosition) {
         //moving backward
         for (int i = rowIndex + 1; i < board.getHeight(); i++) {
 
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex).toString()))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
                 break;// we hit a non-empty space. so break
 
         }
         //moving forward
         for (int i = rowIndex - 1; i >= 0; i--) {
-            if (!addForwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex).toString()))
+            if (!addForwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving right
         for (int i = columnIndex + 1; i < board.getHeight(); i++) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i).toString()))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving left
         for (int i = columnIndex - 1; i >= 0; i--) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i).toString()))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
     }
 
-    private void generateMovesForUser(GameBoard board, int rowIndex, int columnIndex, List<String> moves, String currentPosition) {
+    private void generateMovesForUser(GameBoard board, int rowIndex, int columnIndex, List<Move> moves, BoardPosition currentPosition) {
         //moving forward
         for (int i = rowIndex + 1; i < board.getHeight(); i++) {
-            if (!addForwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex).toString()))
+            if (!addForwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving backwards
         for (int i = rowIndex - 1; i >= 0; i--) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex).toString()))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving right
         for (int i = columnIndex + 1; i < board.getHeight(); i++) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i).toString()))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving left
         for (int i = columnIndex - 1; i >= 0; i--) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i).toString()))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
     }
@@ -94,15 +96,14 @@ public class Rook extends Piece {
      * @param toPosition
      * @return true if we should continue checking pieces
      */
-    private boolean addForwardMoveAndDetermineIfContinue(Piece piece, List<String> moves, String fromPosition, String toPosition) {
+    private boolean addForwardMoveAndDetermineIfContinue(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         boolean willContinueLoop = false;
-        String move = fromPosition + toPosition;
         if (piece == null) {
             //if empty position, add
-            moves.add(move);
+            moves.add(new Move(fromPosition,toPosition));
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
-            moves.add(move);
+            moves.add(new Move(fromPosition,toPosition));
 
         }
         return willContinueLoop;
@@ -115,14 +116,13 @@ public class Rook extends Piece {
      * @param toPosition
      * @return true if we should continue checking pieces
      */
-    private boolean addLeftRightBackwardMoveAndDetermineIfContinue(Piece piece, List<String> moves, String fromPosition, String toPosition) {
-        String move = fromPosition + toPosition;
+    private boolean addLeftRightBackwardMoveAndDetermineIfContinue(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         boolean willContinueLoop = false;
         if (piece == null) {
             //continue
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
-            moves.add(move);
+            moves.add(new Move(fromPosition,toPosition));
         }
         return willContinueLoop;
     }

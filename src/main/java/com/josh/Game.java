@@ -3,6 +3,7 @@ package com.josh;
 import com.josh.pieces.*;
 import com.josh.util.BoardPosition;
 import com.josh.util.Color;
+import com.josh.util.Move;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -62,18 +63,20 @@ public class Game {
     }
 
     private void moveComputer() {
-        List<String> moves = generateMoves(false);
-
+        long startTime =  System.nanoTime();
+        List<Move> moves = generateMoves(false);
+        long finishTime =  System.nanoTime();
+        System.out.println("Time to generate AI moves(ms):  "+(finishTime-startTime)/1000000.0);
         if (moves.isEmpty())
             //find king, then force generate
             moves.addAll(forceGenerateKingMove(false));
         System.out.println("Potential Moves: " + moves.toString());
-        System.out.println("Making move: " + moves.get(0)  +"\t" +BoardPosition.generateOpponentEquivalemtMove(moves.get(0)));
-        board.move(moves.get(0).toCharArray());
+        System.out.println("Making move: " + moves.get(0)  +"\t" +BoardPosition.generateOpponentEquivalentMove(moves.get(0).toString()));
+        board.move(moves.get(0).toString().toCharArray());
     }
 
 
-    private List<String> forceGenerateKingMove(boolean isHumanTurn) {
+    private List<Move> forceGenerateKingMove(boolean isHumanTurn) {
         for (int rowIndex = 1; rowIndex <= board.board.length; rowIndex++) {
             Piece[] rows = board.board[rowIndex - 1];
             for (int columnIndex = 1; columnIndex <= rows.length; columnIndex++) {
@@ -82,7 +85,7 @@ public class Game {
                     return ((King) piece).generateMoves(board, rowIndex, columnIndex, true);
             }
         }
-        return new ArrayList<String>();
+        return new ArrayList<Move>();
 
     }
 
@@ -91,7 +94,7 @@ public class Game {
         do {
             try {
                 System.out.println("Move a piece");
-                List<String> moves=  generateMoves(true);
+                List<Move> moves=  generateMoves(true);
                 if(moves.isEmpty())
                     moves.addAll(forceGenerateKingMove(true));
                 System.out.println("Potential Moves: " +moves.toString());
@@ -110,8 +113,8 @@ public class Game {
     }
 
 
-    public List<String> generateMoves(boolean isHumanTurn) {
-        List<String> moves = new ArrayList<String>();
+    public List<Move> generateMoves(boolean isHumanTurn) {
+        List<Move> moves = new ArrayList<Move>();
 
         for (int rowIndex = 1; rowIndex <= board.board.length; rowIndex++) {
             Piece[] rows = board.board[rowIndex - 1];
@@ -119,23 +122,27 @@ public class Game {
                 Piece piece = board.board[rowIndex - 1][columnIndex - 1];
                 if (piece == null) continue;
                 if (!isHumanTurn && !piece.isUser() || isHumanTurn && piece.isUser()) {
-                    if (piece instanceof King) {
-                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
-                    } else if (piece instanceof Pawn) {
-                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
-                    } else if (piece instanceof Bishop) {
-                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
-                    } else if (piece instanceof Rook) {
-                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
-                    } else if (piece instanceof Knight) {
-                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
-                    }
+                    //Use commented out if you only want to generate moves for certain types of pieces
+                    moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
+
+
+//                    if (piece instanceof King) {
+//                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
+//                    } else if (piece instanceof Pawn) {
+//                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
+//                    } else if (piece instanceof Bishop) {
+//                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
+//                    } else if (piece instanceof Rook) {
+//                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
+//                    } else if (piece instanceof Knight) {
+//                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
+//                    }
+
+
                 }
             }
 
         }
         return moves;
     }
-
-
 }

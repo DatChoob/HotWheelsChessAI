@@ -1,6 +1,8 @@
 package com.josh.pieces;
 
 import com.josh.GameBoard;
+import com.josh.util.BoardPosition;
+import com.josh.util.Move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +14,9 @@ public class Knight extends Piece {
         super(isUser);
     }
 
-    public List<String> generateMoves(GameBoard board, int rowIndex, int columnIndex) {
-        List<String> moves = new ArrayList<String>();
-        String currentPosition = getBoardPositionZeroIndex(rowIndex, columnIndex).toString();
+    public List<Move> generateMoves(GameBoard board, int rowIndex, int columnIndex) {
+        List<Move> moves = new ArrayList<Move>();
+        BoardPosition currentPosition = getBoardPositionZeroIndex(rowIndex, columnIndex);
         if (isUser()) {
             generateMovesForUser(board, rowIndex, columnIndex, moves, currentPosition);
         }
@@ -35,46 +37,46 @@ public class Knight extends Piece {
          */
     }
 
-    private void generateMovesForOpponent(GameBoard board, int rowIndex, int columnIndex, List<String> moves, String currentPosition) {
+    private void generateMovesForOpponent(GameBoard board, int rowIndex, int columnIndex, List<Move> moves, BoardPosition currentPosition) {
 
         //forward
 
 
         //        +1 -2
         if (rowIndex - 2 >= 0 && columnIndex + 1 < board.getWidth()) {
-            addForwardMove(board.board[rowIndex - 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex + 1).toString());
+            addForwardMove(board.board[rowIndex - 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex + 1));
         }
 
 //-1 -2
         if (rowIndex - 2 >= 0 && columnIndex - 1 >= 0) {
-            addForwardMove(board.board[rowIndex - 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex - 1).toString());
+            addForwardMove(board.board[rowIndex - 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex - 1));
         }
 //+2 -1
         if (rowIndex - 1 >= 0 && columnIndex + 2 < board.getWidth()) {
-            addForwardMove(board.board[rowIndex - 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 2).toString());
+            addForwardMove(board.board[rowIndex - 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 2));
         }
 //-2 -1
         if (rowIndex - 1 >= 0 && columnIndex - 2 >= 0) {
-            addForwardMove(board.board[rowIndex - 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 2).toString());
+            addForwardMove(board.board[rowIndex - 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 2));
         }
 
         //backward
         //        +1 +2
         if (rowIndex + 2 < board.getHeight() && columnIndex + 1 < board.getWidth()) {
-            addBackwardMove(board.board[rowIndex + 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex + 1).toString());
+            addBackwardMove(board.board[rowIndex + 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex + 1));
         }
 
 //-1 +2
         if (rowIndex + 2 < board.getHeight() && columnIndex - 1 >= 0) {
-            addBackwardMove(board.board[rowIndex + 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex - 1).toString());
+            addBackwardMove(board.board[rowIndex + 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex - 1));
         }
 //+2 +1
         if (rowIndex + 1 < board.getHeight() && columnIndex + 2 < board.getWidth()) {
-            addBackwardMove(board.board[rowIndex + 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 2).toString());
+            addBackwardMove(board.board[rowIndex + 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 2));
         }
 //-2 +1
         if (rowIndex + 1 < board.getHeight() && columnIndex - 2 >= 0) {
-            addBackwardMove(board.board[rowIndex + 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 2).toString());
+            addBackwardMove(board.board[rowIndex + 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 2));
         }
 
 
@@ -83,24 +85,24 @@ public class Knight extends Piece {
 
     }
 
-    private void generateMovesForUser(GameBoard board, int rowIndex, int columnIndex, List<String> moves, String currentPosition) {
+    private void generateMovesForUser(GameBoard board, int rowIndex, int columnIndex, List<Move> moves, BoardPosition currentPosition) {
 //forwards
 //        +1 +2
         if (rowIndex + 2 < board.getHeight() && columnIndex + 1 < board.getWidth()) {
-            addForwardMove(board.board[rowIndex + 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex + 1).toString());
+            addForwardMove(board.board[rowIndex + 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex + 1));
         }
 
 //-1 +2
         if (rowIndex + 2 < board.getHeight() && columnIndex - 1 >= 0) {
-            addForwardMove(board.board[rowIndex + 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex - 1).toString());
+            addForwardMove(board.board[rowIndex + 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex - 1));
         }
 //+2 +1
         if (rowIndex + 1 < board.getHeight() && columnIndex + 2 < board.getWidth()) {
-            addForwardMove(board.board[rowIndex + 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 2).toString());
+            addForwardMove(board.board[rowIndex + 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 2));
         }
 //-2 +1
         if (rowIndex + 1 < board.getHeight() && columnIndex - 2 >= 0) {
-            addForwardMove(board.board[rowIndex + 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 2).toString());
+            addForwardMove(board.board[rowIndex + 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 2));
         }
 
 
@@ -109,37 +111,35 @@ public class Knight extends Piece {
 
         //        +1 -2
         if (rowIndex - 2 >= 0 && columnIndex + 1 < board.getWidth()) {
-            addBackwardMove(board.board[rowIndex - 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex + 1).toString());
+            addBackwardMove(board.board[rowIndex - 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex + 1));
         }
 
 //-1 -2
         if (rowIndex - 2 >= 0 && columnIndex - 1 >= 0) {
-            addBackwardMove(board.board[rowIndex - 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex - 1).toString());
+            addBackwardMove(board.board[rowIndex - 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex - 1));
         }
 //+2 -1
         if (rowIndex - 1 >= 0 && columnIndex + 2 < board.getWidth()) {
-            addBackwardMove(board.board[rowIndex - 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 2).toString());
+            addBackwardMove(board.board[rowIndex - 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 2));
         }
 //-2 -1
         if (rowIndex - 1 >= 0 && columnIndex - 2 >= 0) {
-            addBackwardMove(board.board[rowIndex - 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 2).toString());
+            addBackwardMove(board.board[rowIndex - 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 2));
         }
     }
 
-    private void addForwardMove(Piece piece, List<String> moves, String fromPosition, String toPosition) {
+    private void addForwardMove(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
 
-        String move = fromPosition + toPosition;
         if (piece == null || isOpponentsPiece(piece)) {
             //if empty or opponent position, add
-            moves.add(move);
+            moves.add(new Move(fromPosition,toPosition));
         }
     }
 
-    private void addBackwardMove(Piece piece, List<String> moves, String fromPosition, String toPosition) {
-        String move = fromPosition + toPosition;
+    private void addBackwardMove(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         if (isOpponentsPiece(piece)) {
             //if opponent position, add
-            moves.add(move);
+            moves.add(new Move(fromPosition,toPosition));
         }
     }
 
