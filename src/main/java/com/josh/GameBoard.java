@@ -1,138 +1,140 @@
 package com.josh;
 
-import org.apache.commons.lang3.StringUtils;
+import com.josh.pieces.*;
 
 import java.security.InvalidParameterException;
 
+import static com.josh.util.BoardPosition.columnCharToIndex;
+
 public class GameBoard {
     //row/column
-    String[][] board = new String[8][7];
+
+    private int width = 7;
+    private int height = 8;
+    public Piece[][] board = new Piece[height][width];
 
 
     public GameBoard() {
-
         init();
     }
 
     private void init() {
 
         //create kings
-        board[0][0] = "C";
-        board[7][0] = "c";
+        board[0][0] = new King(true);
+        board[7][0] = new King(false);
 
-        board[1][1] = "P";
-        board[2][2] = "P";
-        board[6][1] = "p";
-        board[5][2] = "p";
-
-
-        board[2][3] = "B";
-        board[2][4] = "B";
-        board[5][3] = "B";
-        board[5][4] = "B";
+        board[1][1] = new Pawn(true);
+        board[2][2] = new Pawn(true);
+        board[6][1] = new Pawn(false);
+        board[5][2] = new Pawn(false);
 
 
-        board[2][0] = "R";
-        board[2][1] = "R";
-        board[5][0] = "r";
-        board[5][1] = "r";
-
-        board[3][3] = "P";
-        board[3][4] = "P";
-        board[3][5] = "P";
-        board[3][6] = "P";
-
-        board[4][3] = "P";
-        board[4][4] = "P";
-        board[4][5] = "P";
-        board[4][6] = "P";
+        board[2][3] = new Bishop(true);
+        board[2][4] = new Bishop(true);
+        board[5][3] = new Bishop(false);
+        board[5][4] = new Bishop(false);
 
 
+        board[2][0] = new Rook(true);
+        board[2][1] = new Rook(true);
+        board[5][0] = new Rook(false);
+        board[5][1] = new Rook(false);
+
+        board[3][3] = new Pawn(true);
+        board[3][4] = new Pawn(true);
+        board[3][5] = new Pawn(true);
+        board[3][6] = new Pawn(true);
+
+        board[4][3] = new Pawn(false);
+        board[4][4] = new Pawn(false);
+        board[4][5] = new Pawn(false);
+        board[4][6] = new Pawn(false);
         printBoard();
-
     }
 
     public void printBoard() {
-
-        for (String[] row : board) {
-            for (String column : row) {
-                if (StringUtils.isBlank(column))
+        for (int i=board.length-1; i>=0; i--) {
+            for (Piece column : board[i]) {
+                if (column == null)
                     System.out.print("- ");
-                else System.out.print(column + " ");
+                else System.out.print(column.toString() + " ");
             }
             System.out.println();
         }
     }
 
-    public void isValidMove(char[] input) throws Exception {
-        try {
-            if (input.length != 4)
-                throw new InvalidParameterException("Length must be four");
-
-            int fromCol = toColumnIndex(input[0]);
-            int fromRow = Integer.parseInt(String.valueOf(input[1]));
-            if (fromRow < 0 || fromRow > 7)
-                throw new InvalidParameterException("Invalid From row number");
-            int toCol = toColumnIndex(input[2]);
-            int toRow = Integer.parseInt(String.valueOf(input[3]));
-            if (fromCol == toCol && fromRow == toRow) {
-                throw new InvalidParameterException("You cannot move piece to its same location");
-            }
-            if (toRow < 0 || toRow > 7) {
-                throw new InvalidParameterException("Invalid To row number");
-            }
-            if (StringUtils.isBlank(board[fromRow][fromCol])) {
-                throw new InvalidParameterException(input[0] + "" + input[1] + " Not a peice");
-            }
-            if (StringUtils.isNotBlank(board[toRow][toCol])) {
-                throw new InvalidParameterException(input[3] + "" + input[4] + " Has a friendly piece on it");
-            }
-        } catch (Exception e) {
-            throw e;
+    public boolean isValidMove(char[] input) {
+        boolean isValid = true;
+        if (input.length != 4) {
+            System.out.println("Length must be four");
+            isValid = false;
         }
+
+        //converts Letter to int for indexing
+        int fromCol = columnCharToIndex(input[0]);
+        //subtract 1 because we are storing 0 index
+        int fromRow = Integer.parseInt(String.valueOf(input[1])) - 1;
+        if (fromRow < 0 || fromRow > 7) {
+            System.out.println("Invalid From row number");
+            isValid = false;
+
+        }
+        //converts Letter to int for indexing
+        int toCol = columnCharToIndex(input[2]);
+        //subtract 1 because we are storing 0 index
+        int toRow = Integer.parseInt(String.valueOf(input[3])) - 1;
+        if (fromCol == toCol && fromRow == toRow) {
+            System.out.println("You cannot move piece to its same location");
+            isValid = false;
+
+        }
+        if (toRow < 0 || toRow > 7) {
+            System.out.println("Invalid To row number");
+            isValid = false;
+
+        }
+        if (board[fromRow][fromCol] == null) {
+            System.out.println(input[0] + "" + input[1] + " Not a peice");
+            isValid = false;
+
+        }
+//            if (board[toRow][toCol] != null) {
+//               System.out.println(input[2] + "" + input[3] + " Has a friendly piece on it");
+//        isValid=false;
+//
+//            }
+        return isValid;
     }
 
     public void move(char[] input) {
-        int fromCol = toColumnIndex(input[0]);
-        int fromRow = Integer.parseInt(String.valueOf(input[1]));
-        int toCol = toColumnIndex(input[2]);
-        int toRow = Integer.parseInt(String.valueOf(input[3]));
+        int fromCol = columnCharToIndex(input[0]);
+        int fromRow = Integer.parseInt(String.valueOf(input[1])) - 1;
+        int toCol = columnCharToIndex(input[2]);
+        int toRow = Integer.parseInt(String.valueOf(input[3])) - 1;
 
         System.out.println("Moving piece " + board[fromRow][fromCol]);
-        String tmp = board[fromRow][fromCol];
+        Piece tmp = board[fromRow][fromCol];
         board[toRow][toCol] = tmp;
         board[fromRow][fromCol] = null;
     }
 
-    private int toColumnIndex(char c) {
-        switch (c) {
-            case 'A':
-                return 0;
-            case 'B':
-                return 1;
-            case 'C':
-                return 2;
-            case 'D':
-                return 3;
-            case 'E':
-                return 4;
-            case 'F':
-                return 5;
-            case 'G':
-                return 6;
-            default:
-                throw new InvalidParameterException("not a valid column");
-        }
 
+    public int getWidth() {
+        return width;
     }
 
-// 0   C - - - - - - (COMPUTER)
-// 1   - P - - - - -
-// 2   R R P B B - -
-// 3   N N - P P P P
+    public int getHeight() {
+        return height;
+    }
+
+    // 8   C - - - - - - (COMPUTER)
+// 7   - P - - - - -
+// 6   R R P B B - -
+// 5   N N - P P P P
 // 4   n n - p p p p
-// 5   r r p b b - -
-// 6   - p - - - - -
-// 7   c - - - - - -  (HUMAN)
+// 3   r r p b b - -
+// 2   - p - - - - -
+// 1   c - - - - - -  (HUMAN)
 
 }
