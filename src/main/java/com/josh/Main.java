@@ -25,6 +25,7 @@ public class Main {
 
 
         GameBoard board = new GameBoard();
+        board.init();
 
 
         Game controller = new Game(board, playerStarts);

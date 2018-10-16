@@ -2,9 +2,11 @@ package com.josh;
 
 import com.josh.pieces.*;
 
+import java.util.Arrays;
+
 import static com.josh.util.BoardPosition.columnCharToIndex;
 
-public class GameBoard {
+public class GameBoard implements Cloneable {
     //row/column
 
     private int width = 7;
@@ -13,10 +15,9 @@ public class GameBoard {
 
 
     public GameBoard() {
-        init();
     }
 
-    private void init() {
+    public void init() {
 
         //create kings
         board[0][0] = new King(true);
@@ -120,7 +121,7 @@ public class GameBoard {
         int toCol = columnCharToIndex(input[2]);
         int toRow = Integer.parseInt(String.valueOf(input[3])) - 1;
 
-        System.out.println("Moving piece " + board[fromRow][fromCol]);
+        System.out.println("Moving piece " + board[fromRow][fromCol] + Arrays.toString(input));
         Piece tmp = board[fromRow][fromCol];
         board[toRow][toCol] = tmp;
         board[fromRow][fromCol] = null;
@@ -145,4 +146,11 @@ public class GameBoard {
     // 2   - p - - - - -
     // 1   c - - - - - -  (HUMAN)
 
+
+    @Override
+    protected GameBoard clone() {
+        GameBoard clonedBoard = new GameBoard();
+        clonedBoard.board = Arrays.stream(this.board).map(el -> el.clone()).toArray($ -> this.board.clone());
+        return clonedBoard;
+    }
 }

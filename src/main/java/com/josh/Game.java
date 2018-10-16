@@ -14,6 +14,8 @@ public class Game {
     private boolean playerTurn;
     private Scanner scanner = new Scanner(System.in);
 
+    private static final int MAX_DEPTH = 3;
+
 
     public Game(GameBoard board, boolean initialMoveIsPlayer) {
         this.board = board;
@@ -64,15 +66,9 @@ public class Game {
 
     private void moveComputer() {
         long startTime = System.nanoTime();
-        List<Move> moves = generateMoves(false);
+        minimax(board);
         long finishTime = System.nanoTime();
         System.out.println("Time to generate AI moves(ms):  " + (finishTime - startTime) / 1000000.0);
-        if (moves.isEmpty())
-            //find king, then force generate
-            moves.addAll(forceGenerateKingMove(false));
-        System.out.println("Potential Moves: " + moves.toString());
-        System.out.println("Making move: " + moves.get(0) + "\t" + BoardPosition.generateOpponentEquivalentMove(moves.get(0).toString()));
-        board.move(moves.get(0).toString().toCharArray());
     }
 
 
@@ -94,9 +90,7 @@ public class Game {
         do {
             try {
                 System.out.println("Move a piece");
-                List<Move> moves = generateMoves(true);
-                if (moves.isEmpty())
-                    moves.addAll(forceGenerateKingMove(true));
+                List<Move> moves = generateMoves(true, board);
                 System.out.println("Potential Moves: " + moves.toString());
                 String input = scanner.nextLine();
                 if (StringUtils.isBlank(input)) continue;
@@ -116,7 +110,7 @@ public class Game {
     }
 
 
-    public List<Move> generateMoves(boolean isHumanTurn) {
+    public List<Move> generateMoves(boolean isHumanTurn, GameBoard board) {
         List<Move> moves = new ArrayList<>();
 
         for (int rowIndex = 1; rowIndex <= board.board.length; rowIndex++) {
@@ -144,8 +138,121 @@ public class Game {
 
                 }
             }
-
         }
+
+        if (moves.isEmpty())
+            //find king, then force generate
+            moves.addAll(forceGenerateKingMove(isHumanTurn));
         return moves;
     }
+
+
+    //        MiniMax(Board)
+    public void minimax(GameBoard board) {
+        boolean isHumanTurn = false;
+//        best.mv = [not yet defined]
+        Move bestMove = new Move();
+//        best.score = -9999
+        bestMove.setScore(-9999);
+//        For each legal move m
+        for (Move move : generateMoves(isHumanTurn, board)) {
+            GameBoard clonesBoard = board.clone();
+
+            // make move m.mv on Board
+            clonesBoard.move(move.toString().toCharArray());
+//            m.score = MIN
+            move.setScore(min(0, clonesBoard, !isHumanTurn));
+//            if (m.score > best.score) then best = m
+            if (move.getScore() > bestMove.getScore()) bestMove = move;
+//            retract move m.mv on Board
+//            board.move(move.reverse().toString().toCharArray());
+            //an attempt for forcing garbage collection to free up memory
+            clonesBoard = null;
+        }
+//        Make move best.mv
+//        System.out.println("making move" + bestMove.toString());
+        board.move(bestMove.toString().toCharArray());
+    }
+
+    private int min(int depth, GameBoard board, boolean isHumanTurn) {
+
+//        MIN
+//        if (game over)return EVAL - ENDING
+        if (gameIsOver()) return -9999;
+//else if (max depth)return EVAL
+        else if (depth == MAX_DEPTH)
+            return eval(board);
+//else
+        else {
+            Move bestMove = new Move();
+//        best.score = 9999
+            bestMove.setScore(9999);
+//        for each human legal move m.mv
+            for (Move move : generateMoves(isHumanTurn, board)) {
+                GameBoard clonesBoard = board.clone();
+//            make move m.mv on Board
+                clonesBoard.move(move.toString().toCharArray());
+//            m.score = MAX
+                move.setScore(max(depth + 1, clonesBoard, !isHumanTurn));
+//            if (m.score < best.score) then best = m
+                if (move.getScore() < bestMove.getScore()) bestMove = move;
+//            retract move m.mv on Board
+//                not needed since i'm cloning the board instead
+//                board.move(move.reverse().toString().toCharArray());
+                //an attempt for forcing garbage collection to free up memory
+                clonesBoard = null;
+            }
+//        return best.score
+            return bestMove.getScore();
+        }
+    }
+
+    private int max(int depth, GameBoard board, boolean isHumanTurn) {
+
+//        MIN
+//        if (game over)return EVAL - ENDING
+        if (gameIsOver()) return 9999;
+//else if (max depth)return EVAL
+        else if (depth == MAX_DEPTH)
+            return eval(board);
+//else
+        else {
+            Move bestMove = new Move();
+//        best.score = -9999
+            bestMove.setScore(-9999);
+//        for each human legal move m.mv
+            for (Move move : generateMoves(isHumanTurn, board)) {
+                GameBoard clonesBoard = board.clone();
+
+//            make move m.mv on Board
+                clonesBoard.move(move.toString().toCharArray());
+//            m.score = MIN
+                move.setScore(min(depth + 1, clonesBoard, !isHumanTurn));
+//            if (m.score > best.score) then best = m
+                if (move.getScore() > bestMove.getScore()) bestMove = move;
+//            retract move m.mv on Board
+//                board.move(move.reverse().toString().toCharArray());
+//an attempt for forcing garbage collection to free up memory
+                clonesBoard = null;
+            }
+//        return best.score
+            return bestMove.getScore();
+        }
+    }
+
+    public int eval(GameBoard board) {
+        int score = 0;
+        for (Piece[] pieces : board.board) {
+            for (Piece piece : pieces) {
+                if (piece != null) {
+                    if (piece.isUser()) {
+                        score--;
+                    } else score++;
+                }
+            }
+        }
+        System.out.println("Eval " + score);
+        return score;
+    }
+
 }
