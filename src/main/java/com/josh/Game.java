@@ -13,7 +13,7 @@ public class Game {
     private boolean playerTurn;
     private Scanner scanner = new Scanner(System.in);
 
-    private static final int MAX_DEPTH = 3;
+    private static final int MAX_DEPTH = 5;
 
 
     public Game(GameBoard board, boolean initialMoveIsPlayer) {
@@ -22,12 +22,8 @@ public class Game {
     }
 
     public void play() {
-        while (true) {
+        while (!gameIsOver()) {
             try {
-                if (gameIsOver()) {
-                    break;
-                }
-
                 if (playerTurn) {
                     movePlayer();
                     board.printBoard();
@@ -69,10 +65,10 @@ public class Game {
 
 
     private List<Move> forceGenerateKingMove(boolean isHumanTurn) {
-        for (int rowIndex = 1; rowIndex <= board.board.length; rowIndex++) {
-            Piece[] rows = board.board[rowIndex - 1];
-            for (int columnIndex = 1; columnIndex <= rows.length; columnIndex++) {
-                Piece piece = board.board[rowIndex - 1][columnIndex - 1];
+        for (int rowIndex = 0; rowIndex < board.board.length; rowIndex++) {
+            Piece[] rows = board.board[rowIndex];
+            for (int columnIndex = 0; columnIndex < rows.length; columnIndex++) {
+                Piece piece = board.board[rowIndex][columnIndex];
                 if (piece instanceof King && piece.isUser() == isHumanTurn)
                     return ((King) piece).generateMoves(board, rowIndex, columnIndex, true);
             }
@@ -89,7 +85,7 @@ public class Game {
                 System.out.println("Potential Moves: " + moves.toString());
                 String input = scanner.nextLine();
                 if (StringUtils.isBlank(input)) continue;
-                if (!board.isValidMove(input.toUpperCase().toCharArray())) continue;
+                if (!board.isValidMove(input.toUpperCase().toCharArray(), moves)) continue;
                 board.move(input.toUpperCase().toCharArray());
                 break;
             } catch (NoSuchElementException nsee) {
@@ -109,13 +105,13 @@ public class Game {
         long startTime = System.nanoTime();
         List<Move> moves = new ArrayList<>();
 
-        for (int rowIndex = 1; rowIndex <= board.board.length; rowIndex++) {
-            Piece[] rows = board.board[rowIndex - 1];
-            for (int columnIndex = 1; columnIndex <= rows.length; columnIndex++) {
-                Piece piece = board.board[rowIndex - 1][columnIndex - 1];
+        for (int rowIndex = 0; rowIndex < board.board.length; rowIndex++) {
+            Piece[] rows = board.board[rowIndex];
+            for (int columnIndex = 0; columnIndex < rows.length; columnIndex++) {
+                Piece piece = board.board[rowIndex][columnIndex];
                 if (piece == null) continue;
                 if (!isHumanTurn && !piece.isUser() || isHumanTurn && piece.isUser()) {
-                    moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));
+                    moves.addAll(piece.generateMoves(board, rowIndex, columnIndex));
 //                    Use commented out if you only want to generate moves for certain types of pieces
 //                    if (piece instanceof King) {
 //                        moves.addAll(piece.generateMoves(board, rowIndex - 1, columnIndex - 1));

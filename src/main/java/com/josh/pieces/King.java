@@ -29,31 +29,31 @@ public class King extends Piece {
     public List<Move> generateMoves(GameBoard board, int rowIndex, int columnIndex, boolean force) {
         List<Move> moves = new ArrayList<Move>();
         if (isUser()) {
-            if (rowIndex == 1 && columnIndex == 1 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            if (rowIndex == 0 && columnIndex == 0 && (board.board[1][1] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.B2));
-            } else if (rowIndex == 2 && columnIndex == 2 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 1 && columnIndex == 1 && (board.board[2][2] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.C3));
-            } else if (rowIndex == 3 && columnIndex == 3 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 2 && columnIndex == 2 && (board.board[3][3] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.D4));
-            } else if (rowIndex == 4 && columnIndex == 4 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 3 && columnIndex == 3 && (board.board[3][4] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.E4));
-            } else if (rowIndex == 4 && columnIndex == 5 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 3 && columnIndex == 4 && (board.board[3][5] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.F4));
-            } else if (rowIndex == 4 && columnIndex == 6 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 3 && columnIndex == 5 && (board.board[3][6] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.G4));
             }
         } else {
-            if (rowIndex == 8 && columnIndex == 1 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            if (rowIndex == 7 && columnIndex == 0 && (board.board[6][1] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.B7));
-            } else if (rowIndex == 7 && columnIndex == 2 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 6 && columnIndex == 1 && (board.board[5][2] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.C6));
-            } else if (rowIndex == 6 && columnIndex == 3 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 5 && columnIndex == 2 && (board.board[4][3] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.D5));
-            } else if (rowIndex == 5 && columnIndex == 4 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 4 && columnIndex == 3 && (board.board[4][4] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.E5));
-            } else if (rowIndex == 5 && columnIndex == 5 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 4 && columnIndex == 4 && (board.board[4][5] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.F5));
-            } else if (rowIndex == 5 && columnIndex == 6 && (board.board[rowIndex - 1][columnIndex - 1] == null || force)) {
+            } else if (rowIndex == 4 && columnIndex == 5 && (board.board[4][6] == null || force)) {
                 moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.G5));
             }
         }

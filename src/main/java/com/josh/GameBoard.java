@@ -1,8 +1,10 @@
 package com.josh;
 
 import com.josh.pieces.*;
+import com.josh.util.Move;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static com.josh.util.BoardPosition.columnCharToIndex;
 
@@ -72,47 +74,55 @@ public class GameBoard implements Cloneable {
         System.out.println("\tA B C D E F G");
     }
 
-    public boolean isValidMove(char[] input) {
-        boolean isValid = true;
-        if (input.length != 4) {
-            System.out.println("Length must be four");
-            isValid = false;
-        }
+    public boolean isValidMove(char[] input, List<Move> possibleMoves) {
+        try {
+            if (input.length != 4) {
+                System.out.println("Length must be four");
+                return false;
+            }
 
-        //converts Letter to int for indexing
-        int fromCol = columnCharToIndex(input[0]);
-        //subtract 1 because we are storing 0 index
-        int fromRow = Integer.parseInt(String.valueOf(input[1])) - 1;
-        if (fromRow < 0 || fromRow > 7) {
-            System.out.println("Invalid From row number");
-            isValid = false;
+            //converts Letter to int for indexing
+            int fromCol = columnCharToIndex(input[0]);
+            //subtract 1 because we are storing 0 index
+            int fromRow = Integer.parseInt(String.valueOf(input[1])) - 1;
+            if (fromRow < 0 || fromRow > 7) {
+                System.out.println("Invalid From row number");
+                return false;
 
-        }
-        //converts Letter to int for indexing
-        int toCol = columnCharToIndex(input[2]);
-        //subtract 1 because we are storing 0 index
-        int toRow = Integer.parseInt(String.valueOf(input[3])) - 1;
-        if (fromCol == toCol && fromRow == toRow) {
-            System.out.println("You cannot move piece to its same location");
-            isValid = false;
+            }
+            //converts Letter to int for indexing
+            int toCol = columnCharToIndex(input[2]);
+            //subtract 1 because we are storing 0 index
+            int toRow = Integer.parseInt(String.valueOf(input[3])) - 1;
+            if (fromCol == toCol && fromRow == toRow) {
+                System.out.println("You cannot move piece to its same location");
+                return false;
 
-        }
-        if (toRow < 0 || toRow > 7) {
-            System.out.println("Invalid To row number");
-            isValid = false;
+            }
+            if (toRow < 0 || toRow > 7) {
+                System.out.println("Invalid To row number");
+                return false;
 
-        }
-        if (board[fromRow][fromCol] == null) {
-            System.out.println(input[0] + "" + input[1] + " Not a peice");
-            isValid = false;
+            }
+            if (board[fromRow][fromCol] == null) {
+                System.out.println(input[0] + "" + input[1] + " Not a peice");
+                return false;
+            }
 
+            if (board[toRow][toCol] != null && board[toRow][toCol].isUser()) {
+                System.out.println(input[2] + "" + input[3] + " Has a friendly piece on it");
+                return false;
+            }
+
+            if (possibleMoves.stream().noneMatch(item -> item.toString().equals(String.valueOf(input)))) {
+                System.out.println(String.valueOf(input) + " not a legal move");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid input " + String.valueOf(input) + " " + e.getMessage());
+            return false;
         }
-//            if (board[toRow][toCol] != null) {
-//               System.out.println(input[2] + "" + input[3] + " Has a friendly piece on it");
-//        isValid=false;
-//
-//            }
-        return isValid;
+        return true;
     }
 
     public void move(char[] input) {
@@ -121,7 +131,7 @@ public class GameBoard implements Cloneable {
         int toCol = columnCharToIndex(input[2]);
         int toRow = Integer.parseInt(String.valueOf(input[3])) - 1;
 
-        System.out.println("Moving piece " + board[fromRow][fromCol] + Arrays.toString(input));
+//        System.out.println("Moving piece " + board[fromRow][fromCol] + Arrays.toString(input));
         Piece tmp = board[fromRow][fromCol];
         board[toRow][toCol] = tmp;
         board[fromRow][fromCol] = null;
