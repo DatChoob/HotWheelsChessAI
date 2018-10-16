@@ -18,14 +18,6 @@ public abstract class Piece {
 
     abstract public List<String> generateMoves(GameBoard board, int rowIndex, int columnIndex);
 
-    public boolean isUser(Piece piece){
-        return piece!= null && piece.isUser();
-    }
-
-    public boolean isUserOrNull(Piece piece){
-        return piece== null || piece.isUser();
-    }
-
     public boolean isOpponentsPiece(Piece piece){
         return piece != null && (piece.isUser() != this.isUser);
 

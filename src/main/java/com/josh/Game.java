@@ -48,12 +48,12 @@ public class Game {
     private boolean gameIsOver() {
 
 
-        if (board.board[3][6] instanceof King && !board.board[3][6].isUser()) {
-            System.out.println(Color.BLACK_BACKGROUND_BRIGHT + "Computer has won!");
+        if (board.board[3][6] instanceof King && board.board[3][6].isUser()) {
+            System.out.println("Human has won!");
             return true;
         }
-        if (board.board[4][6] instanceof King && board.board[4][6].isUser()) {
-            System.out.println("Human has won!");
+        if (board.board[4][6] instanceof King && !board.board[4][6].isUser()) {
+            System.out.println(Color.BLACK_BACKGROUND_BRIGHT + "Computer has won!");
             return true;
         }
 
