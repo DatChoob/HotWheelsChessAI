@@ -64,33 +64,33 @@ public class King extends Piece {
     public static int getScoreBasedOnPosition(GameBoard board) {
         //human
         if (board.board[0][0] instanceof King)
-            return 1;
+            return 100;
         else if (board.board[1][1] instanceof King)
-            return 3;
+            return 120;
         else if (board.board[2][2] instanceof King)
-            return 5;
+            return 140;
         else if (board.board[3][3] instanceof King)
-            return 7;
+            return 160;
         else if (board.board[3][4] instanceof King)
-            return 9;
+            return 180;
         else if (board.board[3][5] instanceof King)
-            return 11;
+            return 200;
         else if (board.board[3][6] instanceof King)
             return 999;
 
 //ai
         else if (board.board[7][0] instanceof King)
-            return 1;
+            return 100;
         else if (board.board[6][1] instanceof King)
-            return 3;
+            return 120;
         else if (board.board[5][2] instanceof King)
-            return 5;
+            return 140;
         else if (board.board[4][3] instanceof King)
-            return 7;
+            return 160;
         else if (board.board[4][4] instanceof King)
-            return 9;
+            return 180;
         else if (board.board[4][5] instanceof King)
-            return 11;
+            return 200;
         else if (board.board[4][6] instanceof King)
             return 999;
         else

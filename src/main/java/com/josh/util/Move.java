@@ -1,11 +1,18 @@
 package com.josh.util;
 
+
 public class Move {
     private BoardPosition fromPosition;
     private BoardPosition toPosition;
     private int score;
 
     public Move() {
+    }
+
+    public Move(String move) {
+        char[] input = move.toCharArray();
+        this.fromPosition = BoardPosition.getBoardPositionZeroIndex(BoardPosition.columnCharToIndex(input[0]), Character.getNumericValue(input[1]));
+        this.toPosition = BoardPosition.getBoardPositionZeroIndex(BoardPosition.columnCharToIndex(input[2]), Character.getNumericValue(input[3]));
     }
 
     public Move(BoardPosition fromPosition, BoardPosition toPosition) {

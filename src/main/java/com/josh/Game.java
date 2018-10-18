@@ -1,6 +1,7 @@
 package com.josh;
 
 import com.josh.pieces.*;
+import com.josh.util.BoardPosition;
 import com.josh.util.Color;
 import com.josh.util.Move;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +14,7 @@ public class Game {
     private boolean playerTurn;
     private Scanner scanner = new Scanner(System.in);
 
-    private static final int MAX_DEPTH = 5;
+    private static final int MAX_DEPTH = 7;
 
 
     public Game(GameBoard board, boolean initialMoveIsPlayer) {
@@ -22,6 +23,7 @@ public class Game {
     }
 
     public void play() {
+        int turn = 0;
         while (!gameIsOver()) {
             try {
                 if (playerTurn) {
@@ -35,6 +37,7 @@ public class Game {
                     System.out.println(Color.CYAN_BACKGROUND);
                     System.out.println(Color.BLACK);
                 }
+                turn++;
                 playerTurn = !playerTurn;
             } catch (Exception e) {
                 System.err.println(e);
@@ -42,6 +45,7 @@ public class Game {
                 break;
             }
         }
+        System.out.println("turns " + turn);
     }
 
     private boolean gameIsOver() {
@@ -58,9 +62,9 @@ public class Game {
 
     private void moveComputer() {
         long startTime = System.nanoTime();
-        minimax(board);
+        minimax(board, false);
         long finishTime = System.nanoTime();
-        System.out.println("Time to generate AI moves(ms):  " + (finishTime - startTime) / 1000000.0);
+        System.out.println("Time to complete AI move(ms):  " + (finishTime - startTime) / 1000000.0);
     }
 
 
@@ -86,7 +90,7 @@ public class Game {
                 String input = scanner.nextLine();
                 if (StringUtils.isBlank(input)) continue;
                 if (!board.isValidMove(input.toUpperCase().toCharArray(), moves)) continue;
-                board.move(input.toUpperCase().toCharArray());
+                board.move(new Move(input.toUpperCase()));
                 break;
             } catch (NoSuchElementException nsee) {
                 //only thrown if we terminate program when it's expecting an input, ignore this
@@ -138,15 +142,14 @@ public class Game {
 
 
     //        MiniMax(Board)
-    public void minimax(GameBoard board) {
+    public void minimax(GameBoard board, boolean isHumanTurn) {
         int alpha = -99999;
         int beta = 99999;
-        boolean isHumanTurn = false;
         Move bestMove = new Move();
         bestMove.setScore(-9999);
         for (Move move : generateMoves(isHumanTurn, board)) {
             GameBoard clonesBoard = board.clone();
-            clonesBoard.move(move.toString().toCharArray());
+            clonesBoard.move(move);
             move.setScore(min(0, clonesBoard, !isHumanTurn, alpha, beta));
             if (move.getScore() > bestMove.getScore()) bestMove = move;
             //an attempt for forcing garbage collection to free up memory
@@ -156,8 +159,9 @@ public class Game {
             if (beta <= alpha)
                 break;
         }
+        System.out.println("Move made: " + bestMove.toString() + "  " + BoardPosition.generateOpponentEquivalentMove(bestMove.toString()));
         System.out.println("Best Move Score: " + bestMove.getScore());
-        board.move(bestMove.toString().toCharArray());
+        board.move(bestMove);
     }
 
     private int min(int depth, GameBoard board, boolean isHumanTurn, int alpha, int beta) {
@@ -170,7 +174,7 @@ public class Game {
             bestMove.setScore(9999);
             for (Move move : generateMoves(isHumanTurn, board)) {
                 GameBoard clonesBoard = board.clone();
-                clonesBoard.move(move.toString().toCharArray());
+                clonesBoard.move(move);
                 move.setScore(max(depth + 1, clonesBoard, !isHumanTurn, alpha, beta));
                 if (move.getScore() < bestMove.getScore()) bestMove = move;
                 //an attempt for forcing garbage collection to free up memory
@@ -194,7 +198,7 @@ public class Game {
             bestMove.setScore(-9999);
             for (Move move : generateMoves(isHumanTurn, board)) {
                 GameBoard clonesBoard = board.clone();
-                clonesBoard.move(move.toString().toCharArray());
+                clonesBoard.move(move);
                 move.setScore(min(depth + 1, clonesBoard, !isHumanTurn, alpha, beta));
                 if (move.getScore() > bestMove.getScore()) bestMove = move;
                 //an attempt for forcing garbage collection to free up memory

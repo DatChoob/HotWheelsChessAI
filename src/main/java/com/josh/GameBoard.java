@@ -125,13 +125,13 @@ public class GameBoard implements Cloneable {
         return true;
     }
 
-    public void move(char[] input) {
-        int fromCol = columnCharToIndex(input[0]);
-        int fromRow = Integer.parseInt(String.valueOf(input[1])) - 1;
-        int toCol = columnCharToIndex(input[2]);
-        int toRow = Integer.parseInt(String.valueOf(input[3])) - 1;
+    public void move(Move move) {
+//        char[] input = move.toCharArray();
+        int fromCol = move.getFromPosition().getColumn();
+        int fromRow = move.getFromPosition().getRow();
+        int toCol = move.getToPosition().getColumn();
+        int toRow = move.getToPosition().getRow();
 
-//        System.out.println("Moving piece " + board[fromRow][fromCol] + Arrays.toString(input));
         Piece tmp = board[fromRow][fromCol];
         board[toRow][toCol] = tmp;
         board[fromRow][fromCol] = null;
