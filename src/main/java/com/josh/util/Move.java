@@ -11,8 +11,8 @@ public class Move {
 
     public Move(String move) {
         char[] input = move.toCharArray();
-        this.fromPosition = BoardPosition.getBoardPositionZeroIndex(BoardPosition.columnCharToIndex(input[0]), Character.getNumericValue(input[1]));
-        this.toPosition = BoardPosition.getBoardPositionZeroIndex(BoardPosition.columnCharToIndex(input[2]), Character.getNumericValue(input[3]));
+        this.fromPosition = BoardPosition.getBoardPositionZeroIndex(Character.getNumericValue(input[1]) - 1, BoardPosition.columnCharToIndex(input[0]));
+        this.toPosition = BoardPosition.getBoardPositionZeroIndex(Character.getNumericValue(input[3]) - 1, BoardPosition.columnCharToIndex(input[2]));
     }
 
     public Move(BoardPosition fromPosition, BoardPosition toPosition) {
