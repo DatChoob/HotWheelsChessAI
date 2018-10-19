@@ -66,35 +66,37 @@ public class King extends Piece {
         if (board.board[0][0] instanceof King)
             return 100;
         else if (board.board[1][1] instanceof King)
-            return 120;
-        else if (board.board[2][2] instanceof King)
             return 140;
-        else if (board.board[3][3] instanceof King)
-            return 160;
-        else if (board.board[3][4] instanceof King)
+        else if (board.board[2][2] instanceof King)
             return 180;
+        else if (board.board[3][3] instanceof King)
+            return 220;
+        else if (board.board[3][4] instanceof King)
+            return 260;
         else if (board.board[3][5] instanceof King)
-            return 200;
+            return 300;
         else if (board.board[3][6] instanceof King)
-            return 999;
+            return 1000;
 
-//ai
+            //ai
         else if (board.board[7][0] instanceof King)
             return 100;
         else if (board.board[6][1] instanceof King)
-            return 120;
-        else if (board.board[5][2] instanceof King)
             return 140;
-        else if (board.board[4][3] instanceof King)
-            return 160;
-        else if (board.board[4][4] instanceof King)
+        else if (board.board[5][2] instanceof King)
             return 180;
+        else if (board.board[4][3] instanceof King)
+            return 220;
+        else if (board.board[4][4] instanceof King)
+            return 260;
         else if (board.board[4][5] instanceof King)
-            return 200;
+            return 300;
         else if (board.board[4][6] instanceof King)
-            return 999;
-        else
+            return 1000;
+        else {
+            System.out.println("returning  0");
             return 0;
+        }
     }
 
 }
