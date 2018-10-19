@@ -64,7 +64,7 @@ public class Game {
             Move move = minimax(board, isHumanTurn, startTime, depth);
             bestMove = move;
 
-            System.out.println("Finished trying depth " + depth + " Considered move " + move.toString());
+            System.out.println("Finished trying depth " + depth + " Considered move " + move.toString()+ " " +move.getScore());
             System.out.println("elapsed time: " + (endTime - startTime));
 
             if (depth == MAX_DEPTH)
@@ -210,7 +210,7 @@ public class Game {
                         else if (piece instanceof Bishop)
                             score -= 30;
                         else if (piece instanceof King)
-                            score -= King.getScoreBasedOnPosition(board);
+                            score -= King.getScoreBasedOnPosition(board,true);
                     } else {
 //                        score++;
                         if (piece instanceof Rook)
@@ -222,7 +222,7 @@ public class Game {
                         else if (piece instanceof Bishop)
                             score += 30;
                         else if (piece instanceof King)
-                            score += King.getScoreBasedOnPosition(board);
+                            score += King.getScoreBasedOnPosition(board,false);
                     }
                 }
             }

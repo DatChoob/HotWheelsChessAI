@@ -61,42 +61,43 @@ public class King extends Piece {
     }
 
 
-    public static int getScoreBasedOnPosition(GameBoard board) {
+    public static int getScoreBasedOnPosition(GameBoard board, boolean humanKingScore) {
         //human
-        if (board.board[0][0] instanceof King)
-            return 100;
-        else if (board.board[1][1] instanceof King)
-            return 200;
-        else if (board.board[2][2] instanceof King)
-            return 300;
-        else if (board.board[3][3] instanceof King)
-            return 400;
-        else if (board.board[3][4] instanceof King)
-            return 500;
-        else if (board.board[3][5] instanceof King)
-            return 600;
-        else if (board.board[3][6] instanceof King)
-            return 1000;
-
+        if (humanKingScore) {
+            if (board.board[0][0] instanceof King)
+                return 100;
+            else if (board.board[1][1] instanceof King)
+                return 200;
+            else if (board.board[2][2] instanceof King)
+                return 300;
+            else if (board.board[3][3] instanceof King)
+                return 400;
+            else if (board.board[3][4] instanceof King)
+                return 500;
+            else if (board.board[3][5] instanceof King)
+                return 600;
+            else if (board.board[3][6] instanceof King)
+                return 1000;
+        } else {
             //ai
-        else if (board.board[7][0] instanceof King)
-            return 100;
-        else if (board.board[6][1] instanceof King)
-            return 200;
-        else if (board.board[5][2] instanceof King)
-            return 300;
-        else if (board.board[4][3] instanceof King)
-            return 400;
-        else if (board.board[4][4] instanceof King)
-            return 500;
-        else if (board.board[4][5] instanceof King)
-            return 600;
-        else if (board.board[4][6] instanceof King)
-            return 1000;
-        else {
-            System.out.println("returning  0");
-            return 0;
-        }
-    }
+            if (board.board[7][0] instanceof King)
+                return 100;
+            else if (board.board[6][1] instanceof King)
+                return 200;
+            else if (board.board[5][2] instanceof King)
+                return 300;
+            else if (board.board[4][3] instanceof King)
+                return 400;
+            else if (board.board[4][4] instanceof King)
+                return 500;
+            else if (board.board[4][5] instanceof King)
+                return 600;
+            else if (board.board[4][6] instanceof King)
+                return 1000;
 
+        }
+
+        System.out.println("returning  0");
+        return 0;
+    }
 }
