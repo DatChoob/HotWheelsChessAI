@@ -61,18 +61,19 @@ public class GameBoard implements Cloneable {
 
     public void printBoard() {
         for (int i = board.length - 1; i >= 0; i--) {
-            //System.out.print((i + 1) + "\t");
+            System.out.print((i + 1) + "\t");
             for (Piece column : board[i]) {
                 if (column == null) {
-                    //System.out.print("- ");
-                } else {//System.out.print(column.toString() + " ");
+                    System.out.print("- ");
+                } else {
+                    System.out.print(column.toString() + " ");
                 }
             }
-            //System.out.println();
+            System.out.println();
         }
-        //System.out.println();
+        System.out.println();
 
-        //System.out.println("\tA B C D E F G");
+        System.out.println("\tA B C D E F G");
     }
 
     public void printBoardA() {
@@ -179,9 +180,9 @@ public class GameBoard implements Cloneable {
     }
 
 
-    private String boardTo1DString(GameBoard board) {
+    public String boardTo1DString() {
         StringBuilder builder = new StringBuilder();
-        for (Piece[] pieces : board.board) {
+        for (Piece[] pieces : board) {
             for (Piece piece : pieces) {
                 if (piece == null)
                     builder.append(0);
