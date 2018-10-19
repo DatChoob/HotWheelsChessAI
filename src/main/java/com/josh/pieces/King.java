@@ -30,31 +30,31 @@ public class King extends Piece {
         List<Move> moves = new ArrayList<Move>();
         if (isUser()) {
             if (rowIndex == 0 && columnIndex == 0 && (board.board[1][1] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.B2));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.B2, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 1 && columnIndex == 1 && (board.board[2][2] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.C3));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.C3, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 2 && columnIndex == 2 && (board.board[3][3] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.D4));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.D4, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 3 && columnIndex == 3 && (board.board[3][4] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.E4));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.E4, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 3 && columnIndex == 4 && (board.board[3][5] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.F4));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.F4, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 3 && columnIndex == 5 && (board.board[3][6] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.G4));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.G4, board.board[rowIndex][columnIndex], false));
             }
         } else {
             if (rowIndex == 7 && columnIndex == 0 && (board.board[6][1] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.B7));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.B7, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 6 && columnIndex == 1 && (board.board[5][2] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.C6));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.C6, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 5 && columnIndex == 2 && (board.board[4][3] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.D5));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.D5, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 4 && columnIndex == 3 && (board.board[4][4] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.E5));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.E5, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 4 && columnIndex == 4 && (board.board[4][5] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.F5));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.F5, board.board[rowIndex][columnIndex], false));
             } else if (rowIndex == 4 && columnIndex == 5 && (board.board[4][6] == null || force)) {
-                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.G5));
+                moves.add(new Move(getBoardPositionZeroIndex(rowIndex, columnIndex), BoardPosition.G5, board.board[rowIndex][columnIndex], false));
             }
         }
         return moves;
@@ -66,15 +66,15 @@ public class King extends Piece {
         if (board.board[0][0] instanceof King)
             return 100;
         else if (board.board[1][1] instanceof King)
-            return 140;
+            return 200;
         else if (board.board[2][2] instanceof King)
-            return 180;
-        else if (board.board[3][3] instanceof King)
-            return 220;
-        else if (board.board[3][4] instanceof King)
-            return 260;
-        else if (board.board[3][5] instanceof King)
             return 300;
+        else if (board.board[3][3] instanceof King)
+            return 400;
+        else if (board.board[3][4] instanceof King)
+            return 500;
+        else if (board.board[3][5] instanceof King)
+            return 600;
         else if (board.board[3][6] instanceof King)
             return 1000;
 
@@ -82,15 +82,15 @@ public class King extends Piece {
         else if (board.board[7][0] instanceof King)
             return 100;
         else if (board.board[6][1] instanceof King)
-            return 140;
+            return 200;
         else if (board.board[5][2] instanceof King)
-            return 180;
-        else if (board.board[4][3] instanceof King)
-            return 220;
-        else if (board.board[4][4] instanceof King)
-            return 260;
-        else if (board.board[4][5] instanceof King)
             return 300;
+        else if (board.board[4][3] instanceof King)
+            return 400;
+        else if (board.board[4][4] instanceof King)
+            return 500;
+        else if (board.board[4][5] instanceof King)
+            return 600;
         else if (board.board[4][6] instanceof King)
             return 1000;
         else {

@@ -1,10 +1,7 @@
 package com.josh;
 
 import com.josh.pieces.*;
-import com.josh.util.BoardPosition;
-import com.josh.util.Color;
-import com.josh.util.Move;
-import com.josh.util.Transposition;
+import com.josh.util.*;
 
 import java.util.*;
 
@@ -86,20 +83,39 @@ public class Game {
         int beta = Integer.MAX_VALUE;
         GameBoard clonesBoard;
         Move bestMove = new Move();
-        bestMove.setScore(Integer.MIN_VALUE);
+        if (!isHumanTurn) {
+            bestMove.setScore(Integer.MIN_VALUE);
+            for (Move move : generateMoves(isHumanTurn, board)) {
+                clonesBoard = board.clone();
+                clonesBoard.move(move);
+                move.setScore(min(0, clonesBoard, !isHumanTurn, alpha, beta, startTime, maxDepth));
+                if (move.getScore() > bestMove.getScore()) bestMove = move;
+                //an attempt for forcing garbage collection to free up memory
+                clonesBoard = null;
 
-        for (Move move : generateMoves(isHumanTurn, board)) {
-            clonesBoard = board.clone();
-            clonesBoard.move(move);
-            move.setScore(min(0, clonesBoard, !isHumanTurn, alpha, beta, startTime, maxDepth));
-            if (move.getScore() > bestMove.getScore()) bestMove = move;
-            //an attempt for forcing garbage collection to free up memory
-            clonesBoard = null;
+                beta = Math.min(beta, bestMove.getScore());
+                if (beta <= alpha)
+                    break;
+            }
+        } else {
+            bestMove.setScore(Integer.MAX_VALUE);
 
-            beta = Math.min(beta, bestMove.getScore());
-            if (beta <= alpha)
-                break;
+            for (Move move : generateMoves(isHumanTurn, board)) {
+                clonesBoard = board.clone();
+                clonesBoard.move(move);
+                move.setScore(max(0, clonesBoard, !isHumanTurn, alpha, beta, startTime, maxDepth));
+                if (move.getScore() < bestMove.getScore()) bestMove = move;
+                //an attempt for forcing garbage collection to free up memory
+                clonesBoard = null;
+
+                alpha = Math.max(alpha, bestMove.getScore());
+                if (beta <= alpha)
+                    break;
+            }
+
         }
+
+
 
         return bestMove;
     }
@@ -312,6 +328,8 @@ public class Game {
         if (moves.isEmpty())
             //find king, then force generate
             moves.addAll(forceGenerateKingMove(isHumanTurn));
+
+        moves.sort(new PieceClassComparator());
 
 //        //System.out.println("Generating moves took "+ (System.nanoTime()-startTime)/1000000.0 + "ms to generate " + moves.size() + "moves");
         return moves;

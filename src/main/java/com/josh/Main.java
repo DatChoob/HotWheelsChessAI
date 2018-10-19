@@ -12,8 +12,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        runAIvsAI(10);
-        if (true) return;
+//        runAIvsAI(1);
+//        if (true) return;
 //        start game
         Scanner scanner = new Scanner(System.in);
 

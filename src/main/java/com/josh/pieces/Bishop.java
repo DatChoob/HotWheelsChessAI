@@ -31,7 +31,7 @@ public class Bishop extends Piece {
         //forward left
         int forwardInc = 1;
         while (rowIndex - forwardInc >= 0 && columnIndex - forwardInc >= 0) {
-            if (!addBackwardMoveAndDetermineIfContinue(board.board[rowIndex - forwardInc][columnIndex - forwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - forwardInc, columnIndex - forwardInc)))
+            if (!addBackwardMoveAndDetermineIfContinue(board.board[rowIndex - forwardInc][columnIndex - forwardInc], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - forwardInc, columnIndex - forwardInc)))
                 break;
             forwardInc++;
         }
@@ -39,7 +39,7 @@ public class Bishop extends Piece {
         //forward right
         forwardInc = 1;
         while (rowIndex - forwardInc >= 0 && columnIndex + forwardInc < board.getWidth()) {
-            if (!addBackwardMoveAndDetermineIfContinue(board.board[rowIndex - forwardInc][columnIndex + forwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - forwardInc, columnIndex + forwardInc)))
+            if (!addBackwardMoveAndDetermineIfContinue(board.board[rowIndex - forwardInc][columnIndex + forwardInc], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - forwardInc, columnIndex + forwardInc)))
                 break;
             forwardInc++;
         }
@@ -48,7 +48,7 @@ public class Bishop extends Piece {
         int backwardInc = 1;
 
         while (rowIndex + backwardInc < board.getHeight() && columnIndex + backwardInc < board.getWidth()) {
-            if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + backwardInc][columnIndex + backwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + backwardInc, columnIndex + backwardInc)))
+            if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + backwardInc][columnIndex + backwardInc], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + backwardInc, columnIndex + backwardInc)))
                 break;
             backwardInc++;
         }
@@ -56,7 +56,7 @@ public class Bishop extends Piece {
         //backward left
         backwardInc = 1;
         while (rowIndex + backwardInc < board.getHeight() && columnIndex - backwardInc >= 0) {
-            if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + backwardInc][columnIndex - backwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + backwardInc, columnIndex - backwardInc)))
+            if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + backwardInc][columnIndex - backwardInc], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + backwardInc, columnIndex - backwardInc)))
                 break;
             backwardInc++;
         }
@@ -66,7 +66,7 @@ public class Bishop extends Piece {
         int forwardInc = 1;
         //forward right
         while (rowIndex + forwardInc < board.getHeight() && columnIndex + forwardInc < board.getWidth()) {
-            if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + forwardInc][columnIndex + forwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + forwardInc, columnIndex + forwardInc)))
+            if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + forwardInc][columnIndex + forwardInc], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + forwardInc, columnIndex + forwardInc)))
                 break;
             forwardInc++;
         }
@@ -74,7 +74,7 @@ public class Bishop extends Piece {
         //forward left
         forwardInc = 1;
         while (rowIndex + forwardInc < board.getHeight() && columnIndex - forwardInc >= 0) {
-            if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + forwardInc][columnIndex - forwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + forwardInc, columnIndex - forwardInc)))
+            if (!addForwardMoveAndDetermineIfContinue(board.board[rowIndex + forwardInc][columnIndex - forwardInc], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + forwardInc, columnIndex - forwardInc)))
                 break;
             forwardInc++;
         }
@@ -83,7 +83,7 @@ public class Bishop extends Piece {
         //backwards left
         int backwardInc = 1;
         while (rowIndex - backwardInc >= 0 && columnIndex - backwardInc >= 0) {
-            if (!addBackwardMoveAndDetermineIfContinue(board.board[rowIndex - backwardInc][columnIndex - backwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - backwardInc, columnIndex - backwardInc)))
+            if (!addBackwardMoveAndDetermineIfContinue(board.board[rowIndex - backwardInc][columnIndex - backwardInc], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - backwardInc, columnIndex - backwardInc)))
                 break;
             backwardInc++;
         }
@@ -91,7 +91,7 @@ public class Bishop extends Piece {
         //backwards right
         backwardInc = 1;
         while (rowIndex - backwardInc >= 0 && columnIndex + backwardInc < board.getWidth()) {
-            if (!addBackwardMoveAndDetermineIfContinue(board.board[rowIndex - backwardInc][columnIndex + backwardInc], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - backwardInc, columnIndex + backwardInc)))
+            if (!addBackwardMoveAndDetermineIfContinue(board.board[rowIndex - backwardInc][columnIndex + backwardInc], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - backwardInc, columnIndex + backwardInc)))
                 break;
             backwardInc++;
         }
@@ -106,16 +106,16 @@ public class Bishop extends Piece {
      * @param toPosition
      * @return true if we should continue checking pieces
      */
-    private boolean addForwardMoveAndDetermineIfContinue(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
+    private boolean addForwardMoveAndDetermineIfContinue(Piece piece, Piece currentPiece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         boolean willContinueLoop = false;
         if (piece == null) {
             //if empty position, add
-            moves.add(new Move(fromPosition, toPosition));
+            moves.add(new Move(fromPosition, toPosition, currentPiece, false));
             willContinueLoop = true;
         } else if (piece instanceof King) {
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
-            moves.add(new Move(fromPosition, toPosition));
+            moves.add(new Move(fromPosition, toPosition, currentPiece, true));
         }
         return willContinueLoop;
     }
@@ -127,7 +127,7 @@ public class Bishop extends Piece {
      * @param toPosition
      * @return true if we should continue checking pieces
      */
-    private boolean addBackwardMoveAndDetermineIfContinue(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
+    private boolean addBackwardMoveAndDetermineIfContinue(Piece piece, Piece currentPiece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         boolean willContinueLoop = false;
         if (piece == null) {
             //continue
@@ -135,7 +135,7 @@ public class Bishop extends Piece {
         } else if (piece instanceof King) {
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
-            moves.add(new Move(fromPosition, toPosition));
+            moves.add(new Move(fromPosition, toPosition, currentPiece, true));
         }
         return willContinueLoop;
     }

@@ -33,17 +33,17 @@ public class Pawn extends Piece {
             //moving forward
             if (rowIndex - 1 >= 0)
                 if (board.board[rowIndex - 1][columnIndex] == null) {
-                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex)));
+                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex), board.board[rowIndex][columnIndex], false));
                 }
             //forward right
             if (rowIndex - 1 >= 0 && columnIndex + 1 < board.getWidth())
                 if (isOpponentsPiece(board.board[rowIndex - 1][columnIndex + 1]) && !(board.board[rowIndex - 1][columnIndex + 1] instanceof King)) {
-                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 1)));
+                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 1), board.board[rowIndex][columnIndex], true));
                 }
             //forward left
             if (rowIndex - 1 >= 0 && columnIndex - 1 >= 0)
                 if (isOpponentsPiece(board.board[rowIndex - 1][columnIndex - 1]) && !(board.board[rowIndex - 1][columnIndex - 1] instanceof King)) {
-                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 1)));
+                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 1), board.board[rowIndex][columnIndex], true));
                 }
         }
     }
@@ -53,17 +53,17 @@ public class Pawn extends Piece {
             //moving forward if empty space
             if (rowIndex + 1 < board.getHeight())
                 if (board.board[rowIndex + 1][columnIndex] == null) {
-                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex)));
+                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex), board.board[rowIndex][columnIndex], false));
                 }
             //forward right
             if (rowIndex + 1 < board.getHeight() && columnIndex + 1 < board.getWidth())
                 if (isOpponentsPiece(board.board[rowIndex + 1][columnIndex + 1]) && !(board.board[rowIndex + 1][columnIndex + 1] instanceof King)) {
-                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 1)));
+                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 1), board.board[rowIndex][columnIndex], true));
                 }
             //forward left
             if (rowIndex + 1 < board.getHeight() && columnIndex - 1 >= 0)
                 if (isOpponentsPiece(board.board[rowIndex + 1][columnIndex - 1]) && !(board.board[rowIndex + 1][columnIndex - 1] instanceof King)) {
-                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 1)));
+                    moves.add(new Move(currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 1), board.board[rowIndex][columnIndex], true));
                 }
         }
     }

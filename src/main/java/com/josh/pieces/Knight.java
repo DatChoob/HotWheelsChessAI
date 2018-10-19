@@ -44,39 +44,39 @@ public class Knight extends Piece {
 
         //        +1 -2
         if (rowIndex - 2 >= 0 && columnIndex + 1 < board.getWidth()) {
-            addForwardMove(board.board[rowIndex - 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex + 1));
+            addForwardMove(board.board[rowIndex - 2][columnIndex + 1], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex + 1));
         }
 
 //-1 -2
         if (rowIndex - 2 >= 0 && columnIndex - 1 >= 0) {
-            addForwardMove(board.board[rowIndex - 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex - 1));
+            addForwardMove(board.board[rowIndex - 2][columnIndex - 1], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex - 1));
         }
 //+2 -1
         if (rowIndex - 1 >= 0 && columnIndex + 2 < board.getWidth()) {
-            addForwardMove(board.board[rowIndex - 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 2));
+            addForwardMove(board.board[rowIndex - 1][columnIndex + 2], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 2));
         }
 //-2 -1
         if (rowIndex - 1 >= 0 && columnIndex - 2 >= 0) {
-            addForwardMove(board.board[rowIndex - 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 2));
+            addForwardMove(board.board[rowIndex - 1][columnIndex - 2], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 2));
         }
 
         //backward
         //        +1 +2
         if (rowIndex + 2 < board.getHeight() && columnIndex + 1 < board.getWidth()) {
-            addBackwardMove(board.board[rowIndex + 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex + 1));
+            addBackwardMove(board.board[rowIndex + 2][columnIndex + 1], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex + 1));
         }
 
 //-1 +2
         if (rowIndex + 2 < board.getHeight() && columnIndex - 1 >= 0) {
-            addBackwardMove(board.board[rowIndex + 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex - 1));
+            addBackwardMove(board.board[rowIndex + 2][columnIndex - 1], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex - 1));
         }
 //+2 +1
         if (rowIndex + 1 < board.getHeight() && columnIndex + 2 < board.getWidth()) {
-            addBackwardMove(board.board[rowIndex + 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 2));
+            addBackwardMove(board.board[rowIndex + 1][columnIndex + 2], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 2));
         }
 //-2 +1
         if (rowIndex + 1 < board.getHeight() && columnIndex - 2 >= 0) {
-            addBackwardMove(board.board[rowIndex + 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 2));
+            addBackwardMove(board.board[rowIndex + 1][columnIndex - 2], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 2));
         }
 
 
@@ -86,20 +86,20 @@ public class Knight extends Piece {
 //forwards
 //        +1 +2
         if (rowIndex + 2 < board.getHeight() && columnIndex + 1 < board.getWidth()) {
-            addForwardMove(board.board[rowIndex + 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex + 1));
+            addForwardMove(board.board[rowIndex + 2][columnIndex + 1], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex + 1));
         }
 
 //-1 +2
         if (rowIndex + 2 < board.getHeight() && columnIndex - 1 >= 0) {
-            addForwardMove(board.board[rowIndex + 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex - 1));
+            addForwardMove(board.board[rowIndex + 2][columnIndex - 1], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 2, columnIndex - 1));
         }
 //+2 +1
         if (rowIndex + 1 < board.getHeight() && columnIndex + 2 < board.getWidth()) {
-            addForwardMove(board.board[rowIndex + 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 2));
+            addForwardMove(board.board[rowIndex + 1][columnIndex + 2], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex + 2));
         }
 //-2 +1
         if (rowIndex + 1 < board.getHeight() && columnIndex - 2 >= 0) {
-            addForwardMove(board.board[rowIndex + 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 2));
+            addForwardMove(board.board[rowIndex + 1][columnIndex - 2], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex + 1, columnIndex - 2));
         }
 
 
@@ -108,39 +108,42 @@ public class Knight extends Piece {
 
         //        +1 -2
         if (rowIndex - 2 >= 0 && columnIndex + 1 < board.getWidth()) {
-            addBackwardMove(board.board[rowIndex - 2][columnIndex + 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex + 1));
+            addBackwardMove(board.board[rowIndex - 2][columnIndex + 1], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex + 1));
         }
 
 //-1 -2
         if (rowIndex - 2 >= 0 && columnIndex - 1 >= 0) {
-            addBackwardMove(board.board[rowIndex - 2][columnIndex - 1], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex - 1));
+            addBackwardMove(board.board[rowIndex - 2][columnIndex - 1], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 2, columnIndex - 1));
         }
 //+2 -1
         if (rowIndex - 1 >= 0 && columnIndex + 2 < board.getWidth()) {
-            addBackwardMove(board.board[rowIndex - 1][columnIndex + 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 2));
+            addBackwardMove(board.board[rowIndex - 1][columnIndex + 2], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex + 2));
         }
 //-2 -1
         if (rowIndex - 1 >= 0 && columnIndex - 2 >= 0) {
-            addBackwardMove(board.board[rowIndex - 1][columnIndex - 2], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 2));
+            addBackwardMove(board.board[rowIndex - 1][columnIndex - 2], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex - 1, columnIndex - 2));
         }
     }
 
-    private void addForwardMove(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
+    private void addForwardMove(Piece piece, Piece currentPiece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         if (piece instanceof King)
             return;
-        if (piece == null || isOpponentsPiece(piece)) {
+        if (piece == null) {
             //if empty or opponent position, add
-            moves.add(new Move(fromPosition, toPosition));
+            moves.add(new Move(fromPosition, toPosition, currentPiece, false));
+        } else if (isOpponentsPiece(piece)) {
+            moves.add(new Move(fromPosition, toPosition, currentPiece, true));
+
         }
     }
 
-    private void addBackwardMove(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
+    private void addBackwardMove(Piece piece, Piece currentPiece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         if (piece instanceof King) {
             return;
         }
         if (isOpponentsPiece(piece)) {
             //if opponent position, add
-            moves.add(new Move(fromPosition, toPosition));
+            moves.add(new Move(fromPosition, toPosition, currentPiece, true));
         }
     }
 

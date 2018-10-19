@@ -1,10 +1,14 @@
 package com.josh.util;
 
 
+import com.josh.pieces.Piece;
+
 public class Move {
     private BoardPosition fromPosition;
     private BoardPosition toPosition;
     private int score;
+    private Piece piece;
+    private boolean isCapture;
 
     public Move() {
     }
@@ -15,9 +19,11 @@ public class Move {
         this.toPosition = BoardPosition.getBoardPositionZeroIndex(Character.getNumericValue(input[3]) - 1, BoardPosition.columnCharToIndex(input[2]));
     }
 
-    public Move(BoardPosition fromPosition, BoardPosition toPosition) {
+    public Move(BoardPosition fromPosition, BoardPosition toPosition, Piece piece, boolean isCapture) {
         this.fromPosition = fromPosition;
         this.toPosition = toPosition;
+        this.piece = piece;
+        this.isCapture = isCapture;
     }
 
     public BoardPosition getFromPosition() {
@@ -43,6 +49,16 @@ public class Move {
     public void setScore(int score) {
         this.score = score;
     }
+
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public boolean isCapture() {
+        return isCapture;
+    }
+
 
     @Override
     public String toString() {

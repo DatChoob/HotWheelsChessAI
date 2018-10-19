@@ -40,25 +40,25 @@ public class Rook extends Piece {
         //moving backward
         for (int i = rowIndex + 1; i < board.getHeight(); i++) {
 
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[i][columnIndex], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
                 break;// we hit a non-empty space. so break
 
         }
         //moving forward
         for (int i = rowIndex - 1; i >= 0; i--) {
-            if (!addForwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
+            if (!addForwardMoveAndDetermineIfContinue(board.board[i][columnIndex], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving right
         for (int i = columnIndex + 1; i < board.getWidth(); i++) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving left
         for (int i = columnIndex - 1; i >= 0; i--) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
     }
@@ -66,25 +66,25 @@ public class Rook extends Piece {
     private void generateMovesForUser(GameBoard board, int rowIndex, int columnIndex, List<Move> moves, BoardPosition currentPosition) {
         //moving forward
         for (int i = rowIndex + 1; i < board.getHeight(); i++) {
-            if (!addForwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
+            if (!addForwardMoveAndDetermineIfContinue(board.board[i][columnIndex], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving backwards
         for (int i = rowIndex - 1; i >= 0; i--) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[i][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[i][columnIndex], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(i, columnIndex)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving right
         for (int i = columnIndex + 1; i < board.getWidth(); i++) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
 
         //moving left
         for (int i = columnIndex - 1; i >= 0; i--) {
-            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
+            if (!addLeftRightBackwardMoveAndDetermineIfContinue(board.board[rowIndex][i], board.board[rowIndex][columnIndex], moves, currentPosition, getBoardPositionZeroIndex(rowIndex, i)))
                 break;// we hit a non-empty space. so break
         }
     }
@@ -96,16 +96,16 @@ public class Rook extends Piece {
      * @param toPosition
      * @return true if we should continue checking pieces
      */
-    private boolean addForwardMoveAndDetermineIfContinue(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
+    private boolean addForwardMoveAndDetermineIfContinue(Piece piece, Piece currentPiece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         boolean willContinueLoop = false;
         if (piece == null) {
             //if empty position, add
-            moves.add(new Move(fromPosition,toPosition));
+            moves.add(new Move(fromPosition, toPosition, currentPiece, false));
             willContinueLoop = true;
         } else if (piece instanceof King) {
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
-            moves.add(new Move(fromPosition,toPosition));
+            moves.add(new Move(fromPosition, toPosition, currentPiece, true));
 
         }
         return willContinueLoop;
@@ -118,7 +118,7 @@ public class Rook extends Piece {
      * @param toPosition
      * @return true if we should continue checking pieces
      */
-    private boolean addLeftRightBackwardMoveAndDetermineIfContinue(Piece piece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
+    private boolean addLeftRightBackwardMoveAndDetermineIfContinue(Piece piece, Piece currentPiece, List<Move> moves, BoardPosition fromPosition, BoardPosition toPosition) {
         boolean willContinueLoop = false;
         if (piece == null) {
             //continue
@@ -126,7 +126,7 @@ public class Rook extends Piece {
         } else if (piece instanceof King) {
             willContinueLoop = true;
         } else if (isOpponentsPiece(piece)) {
-            moves.add(new Move(fromPosition,toPosition));
+            moves.add(new Move(fromPosition, toPosition, currentPiece, true));
         }
         return willContinueLoop;
     }
