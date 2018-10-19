@@ -61,15 +61,32 @@ public class GameBoard implements Cloneable {
 
     public void printBoard() {
         for (int i = board.length - 1; i >= 0; i--) {
+            //System.out.print((i + 1) + "\t");
+            for (Piece column : board[i]) {
+                if (column == null) {
+                    //System.out.print("- ");
+                } else {//System.out.print(column.toString() + " ");
+                }
+            }
+            //System.out.println();
+        }
+        //System.out.println();
+
+        //System.out.println("\tA B C D E F G");
+    }
+
+    public void printBoardA() {
+        for (int i = board.length - 1; i >= 0; i--) {
             System.out.print((i + 1) + "\t");
             for (Piece column : board[i]) {
-                if (column == null)
+                if (column == null) {
                     System.out.print("- ");
-                else System.out.print(column.toString() + " ");
+                } else {
+                    System.out.print(column.toString() + " ");
+                }
             }
             System.out.println();
         }
-        System.out.println();
 
         System.out.println("\tA B C D E F G");
     }
@@ -77,7 +94,7 @@ public class GameBoard implements Cloneable {
     public boolean isValidMove(char[] input, List<Move> possibleMoves) {
         try {
             if (input.length != 4) {
-                System.out.println("Length must be four");
+                //System.out.println("Length must be four");
                 return false;
             }
 
@@ -86,47 +103,44 @@ public class GameBoard implements Cloneable {
             //subtract 1 because we are storing 0 index
             int fromRow = Integer.parseInt(String.valueOf(input[1])) - 1;
             if (fromRow < 0 || fromRow > 7) {
-                System.out.println("Invalid From row number");
+                //System.out.println("Invalid From row number");
                 return false;
-
             }
             //converts Letter to int for indexing
             int toCol = columnCharToIndex(input[2]);
             //subtract 1 because we are storing 0 index
             int toRow = Integer.parseInt(String.valueOf(input[3])) - 1;
             if (fromCol == toCol && fromRow == toRow) {
-                System.out.println("You cannot move piece to its same location");
+                //System.out.println("You cannot move piece to its same location");
                 return false;
 
             }
             if (toRow < 0 || toRow > 7) {
-                System.out.println("Invalid To row number");
+                //System.out.println("Invalid To row number");
                 return false;
 
             }
             if (board[fromRow][fromCol] == null) {
-                System.out.println(input[0] + "" + input[1] + " Not a peice");
+                //System.out.println(input[0] + "" + input[1] + " Not a peice");
                 return false;
             }
 
             if (board[toRow][toCol] != null && board[toRow][toCol].isUser()) {
-                System.out.println(input[2] + "" + input[3] + " Has a friendly piece on it");
+                //System.out.println(input[2] + "" + input[3] + " Has a friendly piece on it");
                 return false;
             }
 
             if (possibleMoves.stream().noneMatch(item -> item.toString().equals(String.valueOf(input)))) {
-                System.out.println(String.valueOf(input) + " not a legal move");
-                return false;
+                //System.out.println(String.valueOf(input) + " not a legal move");
             }
         } catch (Exception e) {
-            System.out.println("Invalid input " + String.valueOf(input) + " " + e.getMessage());
+            //System.out.println("Invalid input " + String.valueOf(input) + " " + e.getMessage());
             return false;
         }
         return true;
     }
 
     public void move(Move move) {
-//        char[] input = move.toCharArray();
         int fromCol = move.getFromPosition().getColumn();
         int fromRow = move.getFromPosition().getRow();
         int toCol = move.getToPosition().getColumn();
@@ -162,5 +176,18 @@ public class GameBoard implements Cloneable {
         GameBoard clonedBoard = new GameBoard();
         clonedBoard.board = Arrays.stream(this.board).map(el -> el.clone()).toArray($ -> this.board.clone());
         return clonedBoard;
+    }
+
+
+    private String boardTo1DString(GameBoard board) {
+        StringBuilder builder = new StringBuilder();
+        for (Piece[] pieces : board.board) {
+            for (Piece piece : pieces) {
+                if (piece == null)
+                    builder.append(0);
+                else builder.append(piece.toString());
+            }
+        }
+        return builder.toString();
     }
 }
