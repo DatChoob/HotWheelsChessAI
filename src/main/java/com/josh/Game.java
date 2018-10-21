@@ -2,6 +2,7 @@ package com.josh;
 
 import com.josh.pieces.*;
 import com.josh.util.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -28,13 +29,13 @@ public class Game {
                 if (playerTurn) {
                     movePlayer();
                     board.printBoard();
-                    System.out.println(Color.CYAN_BACKGROUND);
-                    System.out.println(Color.BLACK);
+//                    System.out.println(Color.CYAN_BACKGROUND);
+//                    System.out.println(Color.BLACK);
                 } else {
                     moveComputer();
                     board.printBoard();
-                    System.out.println(Color.CYAN_BACKGROUND);
-                    System.out.println(Color.BLACK);
+//                    System.out.println(Color.CYAN_BACKGROUND);
+//                    System.out.println(Color.BLACK);
                 }
                 turn++;
                 playerTurn = !playerTurn;
@@ -48,7 +49,7 @@ public class Game {
             System.out.println("Human has won!");
 
         } else if (aiWon(board)) {
-            System.out.println(Color.BLACK_BACKGROUND_BRIGHT + "Computer has won!");
+            System.out.println("Computer has won!");
         }
         System.out.println("turns " + turn);
     }
@@ -57,23 +58,28 @@ public class Game {
     public void interativeDeepeningMinimax(GameBoard board, boolean isHumanTurn) {
         long startTime = System.currentTimeMillis();
         long endTime = 0;
-        Move bestMove = null;
+        Move bestMove = new Move();
+        if (!isHumanTurn)
+            bestMove.setScore(Integer.MIN_VALUE);
+        else bestMove.setScore(Integer.MAX_VALUE);
+
         int depth = 1;
         table.clear();
+        System.out.println("AI possible moves" + generateMoves(isHumanTurn, board).toString());
+
         while ((endTime = System.currentTimeMillis()) - startTime <= MAX_TIME) {
             Move move = minimax(board, isHumanTurn, startTime, depth);
-            bestMove = move;
+            if (move.getScore() > bestMove.getScore())
+                bestMove = move;
 
-            System.out.println("Finished trying depth " + depth + " Considered move " + move.toString()+ " " +move.getScore());
-            System.out.println("elapsed time: " + (endTime - startTime));
+            System.out.println("Finished trying depth " + depth + " Considered move " + move.toString() + " " + move.getScore() + " elapsed time: " + (endTime - startTime));
 
             if (depth == MAX_DEPTH)
                 break;
             depth++;
         }
         System.out.println("Finished finding a move. Elapsed time: " + (endTime - startTime));
-        System.out.println("Move made: " + bestMove.toString() + "  " + BoardPosition.generateOpponentEquivalentMove(bestMove.toString()));
-        System.out.println("Best Move Score: " + bestMove.getScore());
+        System.out.println("Move made: " + bestMove.toString() + "  " + BoardPosition.generateOpponentEquivalentMove(bestMove.toString()) + " score: " + bestMove.getScore());
         board.move(bestMove);
     }
 
@@ -89,7 +95,8 @@ public class Game {
                 clonesBoard = board.clone();
                 clonesBoard.move(move);
                 move.setScore(min(0, clonesBoard, !isHumanTurn, alpha, beta, startTime, maxDepth));
-                if (move.getScore() > bestMove.getScore()) bestMove = move;
+                if (move.getScore() > bestMove.getScore())
+                    bestMove = move;
                 //an attempt for forcing garbage collection to free up memory
                 clonesBoard = null;
 
@@ -98,23 +105,22 @@ public class Game {
                     break;
             }
         } else {
-            bestMove.setScore(Integer.MAX_VALUE);
-
-            for (Move move : generateMoves(isHumanTurn, board)) {
-                clonesBoard = board.clone();
-                clonesBoard.move(move);
-                move.setScore(max(0, clonesBoard, !isHumanTurn, alpha, beta, startTime, maxDepth));
-                if (move.getScore() < bestMove.getScore()) bestMove = move;
-                //an attempt for forcing garbage collection to free up memory
-                clonesBoard = null;
-
-                alpha = Math.max(alpha, bestMove.getScore());
-                if (beta <= alpha)
-                    break;
-            }
+//            bestMove.setScore(Integer.MAX_VALUE);
+//
+//            for (Move move : generateMoves(isHumanTurn, board)) {
+//                clonesBoard = board.clone();
+//                clonesBoard.move(move);
+//                move.setScore(max(0, clonesBoard, !isHumanTurn, alpha, beta, startTime, maxDepth));
+//                if (move.getScore() < bestMove.getScore()) bestMove = move;
+//                //an attempt for forcing garbage collection to free up memory
+//                clonesBoard = null;
+//
+//                alpha = Math.max(alpha, bestMove.getScore());
+//                if (beta <= alpha)
+//                    break;
+//            }
 
         }
-
 
 
         return bestMove;
@@ -122,7 +128,7 @@ public class Game {
 
     private int min(int depth, GameBoard board, boolean isHumanTurn, int alpha, int beta, long startTime, int maxDepth) {
 
-        if (gameIsOver(board)) return -10000;
+        if (gameIsOver(board)) return eval(board);
         else if (depth == maxDepth)
             return eval(board);
         else if (System.currentTimeMillis() - startTime > MAX_TIME) {
@@ -160,7 +166,7 @@ public class Game {
 
     private int max(int depth, GameBoard board, boolean isHumanTurn, int alpha, int beta, long startTime, int maxDepth) {
 
-        if (gameIsOver(board)) return 10000;
+        if (gameIsOver(board)) return eval(board);
         else if (depth == maxDepth)
             return eval(board);
         else if (System.currentTimeMillis() - startTime > MAX_TIME) {
@@ -196,33 +202,62 @@ public class Game {
 
     public int eval(GameBoard board) {
         int score = 0;
-        for (Piece[] pieces : board.board) {
-            for (Piece piece : pieces) {
+        for (int i = 0; i < board.board.length; i++) {
+            Piece[] pieces = board.board[i];
+            for (int j = 0; j < pieces.length; j++) {
+                Piece piece = pieces[j];
                 if (piece != null) {
                     if (piece.isUser()) {
+
+                        //if piece is on enemy king path, points for us.
+                        if (
+                                (i == 6 && j == 1)
+                                        || (i == 5 && j == 2)
+                                        || (i == 4 && j == 3)
+                                        || (i == 4 && j == 4)
+                                        || (i == 4 && j == 5)
+                                        || (i == 4 && j == 6)
+
+                        ) {
+                            score -= 20;
+                        }
+
 //                        score++;
                         if (piece instanceof Rook)
-                            score -= 50;
+                            score -= 40;
                         else if (piece instanceof Pawn)
                             score -= 10;
                         else if (piece instanceof Knight)
                             score -= 30;
                         else if (piece instanceof Bishop)
-                            score -= 30;
+                            score -= 15;
                         else if (piece instanceof King)
-                            score -= King.getScoreBasedOnPosition(board,true);
+                            score -= King.getScoreBasedOnPosition(board, true);
                     } else {
+
+                        if (
+                                (i == 1 && j == 1)
+                                        || (i == 2 && j == 2)
+                                        || (i == 3 && j == 3)
+                                        || (i == 3 && j == 4)
+                                        || (i == 3 && j == 5)
+                                        || (i == 3 && j == 6)
+
+                        ) {
+                            score += 10;
+                        }
+
 //                        score++;
                         if (piece instanceof Rook)
-                            score += 50;
+                            score += 40;
                         else if (piece instanceof Pawn)
                             score += 10;
                         else if (piece instanceof Knight)
                             score += 30;
                         else if (piece instanceof Bishop)
-                            score += 30;
+                            score += 15;
                         else if (piece instanceof King)
-                            score += King.getScoreBasedOnPosition(board,false);
+                            score += King.getScoreBasedOnPosition(board, false);
                     }
                 }
             }
@@ -257,7 +292,7 @@ public class Game {
         long startTime = System.nanoTime();
         interativeDeepeningMinimax(board, false);
         long finishTime = System.nanoTime();
-        //System.out.println("Time to complete AI move(ms):  " + (finishTime - startTime) / 1000000.0);
+        System.out.println("Time to complete AI move(ms):  " + (finishTime - startTime) / 1000000.0);
     }
 
 
@@ -277,13 +312,13 @@ public class Game {
     private void movePlayer() {
         do {
             try {
-//                List<Move> moves = generateMoves(true, board);
-//                //System.out.println("Potential Moves: " + moves.toString());
-//                String input = scanner.nextLine();
-//                if (StringUtils.isBlank(input)) continue;
-//                if (!board.isValidMove(input.toUpperCase().toCharArray(), moves)) continue;
-//                board.move(new Move(input.toUpperCase()));
-                interativeDeepeningMinimax(board, true);
+                List<Move> moves = generateMoves(true, board);
+                System.out.println("Potential Moves: " + moves.toString());
+                String input = scanner.nextLine();
+                if (StringUtils.isBlank(input)) continue;
+                if (!board.isValidMove(input.toUpperCase().toCharArray(), moves)) continue;
+                board.move(new Move(input.toUpperCase()));
+//                interativeDeepeningMinimax(board, true);
                 break;
             } catch (NoSuchElementException nsee) {
                 //only thrown if we terminate program when it's expecting an input, ignore this

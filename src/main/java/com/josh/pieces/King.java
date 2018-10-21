@@ -77,7 +77,7 @@ public class King extends Piece {
             else if (board.board[3][5] instanceof King)
                 return 600;
             else if (board.board[3][6] instanceof King)
-                return 1000;
+                return 2000;
         } else {
             //ai
             if (board.board[7][0] instanceof King)
@@ -93,7 +93,7 @@ public class King extends Piece {
             else if (board.board[4][5] instanceof King)
                 return 600;
             else if (board.board[4][6] instanceof King)
-                return 1000;
+                return 2000;
 
         }
 
