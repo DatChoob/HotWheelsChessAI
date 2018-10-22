@@ -1,9 +1,13 @@
 package com.josh;
 
-import com.josh.pieces.*;
+import com.josh.pieces.Bishop;
+import com.josh.pieces.King;
+import com.josh.pieces.Knight;
+import com.josh.pieces.Pawn;
+import com.josh.pieces.Piece;
+import com.josh.pieces.Rook;
 import com.josh.util.Move;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.josh.util.BoardPosition.columnCharToIndex;
@@ -130,8 +134,15 @@ public class GameBoard implements Cloneable {
                 System.out.println(input[2] + "" + input[3] + " Has a friendly piece on it");
                 return false;
             }
+            boolean inputedLegalMove = false;
+            for (Move possibleMove : possibleMoves) {
+                if (possibleMove.toString().equals(String.valueOf(input))) {
+                    inputedLegalMove = true;
+                    break;
+                }
+            }
 
-            if (possibleMoves.stream().noneMatch(item -> item.toString().equals(String.valueOf(input)))) {
+            if (!inputedLegalMove) {
                 System.out.println(String.valueOf(input) + " not a legal move");
                 return false;
             }
@@ -176,7 +187,17 @@ public class GameBoard implements Cloneable {
     @Override
     protected GameBoard clone() {
         GameBoard clonedBoard = new GameBoard();
-        clonedBoard.board = Arrays.stream(this.board).map(el -> el.clone()).toArray($ -> this.board.clone());
+        Piece[][] newBoard = new Piece[8][7];
+        for (int i = 0; i < board.length; i++) {
+            Piece[] pieces = board[i];
+
+            for (int j = 0; j < pieces.length; j++) {
+                newBoard[i][j] = pieces[j];
+            }
+        }
+        clonedBoard.board = newBoard;
+
+//        clonedBoard.board = Arrays.stream(this.board).map(el -> el.clone()).toArray($ -> this.board.clone());
         return clonedBoard;
     }
 

@@ -14,7 +14,7 @@ public class Game {
 
     private static final int MAX_DEPTH = 20;
     private static final int MAX_TIME = 4900;
-    private Map<String, Transposition> table = new HashMap<>();
+    private Map<String, Transposition> table = new HashMap<String, Transposition>();
 
 
     public Game(GameBoard board, boolean initialMoveIsPlayer) {
@@ -335,7 +335,7 @@ public class Game {
 
     public List<Move> generateMoves(boolean isHumanTurn, GameBoard board) {
         long startTime = System.nanoTime();
-        List<Move> moves = new ArrayList<>();
+        List<Move> moves = new ArrayList<Move>();
 
         for (int rowIndex = 0; rowIndex < board.board.length; rowIndex++) {
             Piece[] rows = board.board[rowIndex];
@@ -364,7 +364,7 @@ public class Game {
             //find king, then force generate
             moves.addAll(forceGenerateKingMove(isHumanTurn));
 
-        moves.sort(new PieceClassComparator());
+//        moves.sort(new PieceClassComparator());
 
 //        //System.out.println("Generating moves took "+ (System.nanoTime()-startTime)/1000000.0 + "ms to generate " + moves.size() + "moves");
         return moves;

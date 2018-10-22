@@ -336,7 +336,11 @@ public enum BoardPosition {
     public static String generateOpponentEquivalentMove(String myMove) {
         char[] moveComponents = myMove.toCharArray();
         List<?> newVales = Arrays.asList(moveComponents[0], switchMyRowToOpponentRowNotation(moveComponents[1]), moveComponents[2], switchMyRowToOpponentRowNotation((moveComponents[3])));
-        return newVales.stream().map(String::valueOf).collect(Collectors.joining());
+        return new String(new char[]{moveComponents[0], switchMyRowToOpponentRowNotation(moveComponents[1]), moveComponents[2],
+                switchMyRowToOpponentRowNotation(moveComponents[3])
+        });
+
+//        return newVales.stream().map(String::valueOf).collect(Collectors.joining());
 
     }
 
