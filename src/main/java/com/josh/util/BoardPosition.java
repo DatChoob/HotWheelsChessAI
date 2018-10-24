@@ -1,8 +1,11 @@
 package com.josh.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public enum BoardPosition {
@@ -381,5 +384,22 @@ public enum BoardPosition {
 
     public int getColumn() {
         return column;
+    }
+
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        while (true) {
+            try {
+                String input = scan.nextLine();
+                if (StringUtils.isNotBlank(input))
+                    System.out.println(input.toUpperCase() + "->" + BoardPosition.generateOpponentEquivalentMove(input.toUpperCase()));
+            } catch (Exception e) {
+
+                System.out.println("err" + e.getMessage());
+                e.printStackTrace();
+                break;
+            }
+        }
     }
 }

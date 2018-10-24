@@ -126,10 +126,10 @@ public class GameBoard implements Cloneable {
                 return false;
             }
 
-            if (board[toRow][toCol] != null && board[toRow][toCol].isUser()) {
-                System.out.println(input[2] + "" + input[3] + " Has a friendly piece on it");
-                return false;
-            }
+//            if (board[toRow][toCol] != null && board[toRow][toCol].isUser()) {
+//                System.out.println(input[2] + "" + input[3] + " Has a friendly piece on it");
+//                return false;
+//            }
 
             if (possibleMoves.stream().noneMatch(item -> item.toString().equals(String.valueOf(input)))) {
                 System.out.println(String.valueOf(input) + " not a legal move");

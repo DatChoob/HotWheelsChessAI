@@ -113,9 +113,7 @@ public class Bishop extends Piece {
             //if empty position, add
             moves.add(new Move(fromPosition, toPosition, currentPiece, false));
             willContinueLoop = true;
-        } else if (piece instanceof King) {
-            willContinueLoop = true;
-        } else if (isOpponentsPiece(piece)) {
+        } else if (isOpponentsPiece(piece) && !(piece instanceof King)) {
             moves.add(new Move(fromPosition, toPosition, currentPiece, true));
         }
         return willContinueLoop;

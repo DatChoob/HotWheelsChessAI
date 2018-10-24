@@ -13,7 +13,7 @@ public class Game {
     private Scanner scanner = new Scanner(System.in);
 
     private static final int MAX_DEPTH = 20;
-    private static final int MAX_TIME = 4900;
+    private static final int MAX_TIME = 4950;
     private Map<String, Transposition> table = new HashMap<>();
 
 
@@ -55,7 +55,7 @@ public class Game {
     }
 
 
-    public void interativeDeepeningMinimax(GameBoard board, boolean isHumanTurn) {
+    public void iterativeDeepeningMinimax(GameBoard board, boolean isHumanTurn) {
         long startTime = System.currentTimeMillis();
         long endTime = 0;
         Move bestMove = new Move();
@@ -95,6 +95,7 @@ public class Game {
                 clonesBoard = board.clone();
                 clonesBoard.move(move);
                 move.setScore(min(0, clonesBoard, !isHumanTurn, alpha, beta, startTime, maxDepth));
+                //System.out.println("Move/Score" +  move.toString()+"/"+move.getScore());
                 if (move.getScore() > bestMove.getScore())
                     bestMove = move;
                 //an attempt for forcing garbage collection to free up memory
@@ -128,9 +129,9 @@ public class Game {
 
     private int min(int depth, GameBoard board, boolean isHumanTurn, int alpha, int beta, long startTime, int maxDepth) {
 
-        if (gameIsOver(board)) return eval(board);
+        if (gameIsOver(board)) return eval(board, isHumanTurn);
         else if (depth == maxDepth)
-            return eval(board);
+            return eval(board, isHumanTurn);
         else if (System.currentTimeMillis() - startTime > MAX_TIME) {
 //            System.out.println("MAX TIME REACHED");
             return Integer.MIN_VALUE + 1;
@@ -166,9 +167,9 @@ public class Game {
 
     private int max(int depth, GameBoard board, boolean isHumanTurn, int alpha, int beta, long startTime, int maxDepth) {
 
-        if (gameIsOver(board)) return eval(board);
+        if (gameIsOver(board)) return eval(board, isHumanTurn);
         else if (depth == maxDepth)
-            return eval(board);
+            return eval(board, isHumanTurn);
         else if (System.currentTimeMillis() - startTime > MAX_TIME) {
 //            System.out.println("MAX TIME REACHED");
             return Integer.MAX_VALUE - 1;
@@ -200,7 +201,7 @@ public class Game {
         }
     }
 
-    public int eval(GameBoard board) {
+    public int eval(GameBoard board, boolean isHumanTurn) {
         int score = 0;
         for (int i = 0; i < board.board.length; i++) {
             Piece[] pieces = board.board[i];
@@ -219,7 +220,7 @@ public class Game {
                                         || (i == 4 && j == 6)
 
                         ) {
-                            score -= 20;
+                            score -= 10;
                         }
 
 //                        score++;
@@ -262,6 +263,12 @@ public class Game {
                 }
             }
         }
+        if (isHumanTurn) {
+            score += generateMoves(false, board).size();
+        } else {
+            score -= generateMoves(true, board).size();
+        }
+
 //        //System.out.println("Eval " + score);
         return score;
     }
@@ -277,7 +284,6 @@ public class Game {
 
     private boolean userWon(GameBoard board) {
         return board.board[3][6] instanceof King && board.board[3][6].isUser();
-
     }
 
     private boolean aiWon(GameBoard board) {
@@ -290,7 +296,7 @@ public class Game {
 
     private void moveComputer() {
         long startTime = System.nanoTime();
-        interativeDeepeningMinimax(board, false);
+        iterativeDeepeningMinimax(board, false);
         long finishTime = System.nanoTime();
         System.out.println("Time to complete AI move(ms):  " + (finishTime - startTime) / 1000000.0);
     }
@@ -318,7 +324,7 @@ public class Game {
                 if (StringUtils.isBlank(input)) continue;
                 if (!board.isValidMove(input.toUpperCase().toCharArray(), moves)) continue;
                 board.move(new Move(input.toUpperCase()));
-//                interativeDeepeningMinimax(board, true);
+//                iterativeDeepeningMinimax(board, true);
                 break;
             } catch (NoSuchElementException nsee) {
                 //only thrown if we terminate program when it's expecting an input, ignore this
